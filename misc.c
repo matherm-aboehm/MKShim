@@ -643,7 +643,11 @@ krb5_enctype_to_string(mit_krb5_enctype enctype,
 		       char *str, 
 		       size_t size)
 {
+#ifdef HAVE_STRSAFE
+    StringCchPrintfA(str, size, "enctype-%d", enctype);
+#else
     snprintf(str, size, "enctype-%d", enctype);
+#endif
     return 0;
 }
 
