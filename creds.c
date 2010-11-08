@@ -37,7 +37,6 @@
 #include "heim.h"
 #include <string.h>
 #include <errno.h>
-#include <syslog.h>
 
 
 mit_krb5_error_code KRB5_CALLCONV

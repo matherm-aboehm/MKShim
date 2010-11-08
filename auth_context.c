@@ -39,7 +39,6 @@
 #include "mit-krb5.h"
 #include <string.h>
 #include <errno.h>
-#include <syslog.h>
 
 mit_krb5_error_code KRB5_CALLCONV
 krb5_auth_con_setaddrs(mit_krb5_context context,
