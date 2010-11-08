@@ -541,6 +541,8 @@ krb5_timeofday(mit_krb5_context context,
 char *
 krb5_pkinit_cert_hash_str(const mit_krb5_data *cert)
 {
+#ifdef HAVE_COMMONCRYPTO_COMMONDIGEST_H
+
     CC_SHA1_CTX ctx;
     char *outstr, *cpOut;
     unsigned char digest[CC_SHA1_DIGEST_LENGTH];
@@ -560,6 +562,80 @@ krb5_pkinit_cert_hash_str(const mit_krb5_data *cert)
 	sprintf(cpOut, "%02X", (unsigned)digest[i]);
     *cpOut = '\0';
     return outstr;
+
+#elif defined(_WIN32)
+
+    HCRYPTPROV  hProv = 0;
+    HCRYPTHASH  hHash = 0;
+    char        *outstr = NULL;
+    char        *outpos;
+    size_t      cch_left;
+    BYTE        *hash = NULL;
+    DWORD       hashSize = 0;
+    DWORD       len, i;
+
+    LOG_ENTRY();
+
+    if (!CryptAcquireContext(&hProv, NULL, NULL, PROV_RSA_SIG, CRYPT_VERIFYCONTEXT)) {
+        LOG_LASTERROR("CryptAcquireContext failed");
+        goto done;
+    }
+
+    if (!CryptCreateHash(hProv, CALG_SHA1, 0, 0, &hHash)) {
+        LOG_LASTERROR("CryptCreateHash failed");
+        goto done;
+    }
+
+    if (!CryptHashData(hHash, (BYTE *) cert->data, cert->length, 0)) {
+        LOG_LASTERROR("CryptHashData failed");
+        goto done;
+    }
+
+    len = sizeof(hashSize);
+    if (!CryptGetHashParam(hHash, HP_HASHSIZE, (BYTE *) &hashSize, &len, 0)) {
+        LOG_LASTERROR("CryptGetHashParam failed while getting hash size");
+        goto done;
+    }
+
+    hash = malloc(hashSize);
+    if (hash == NULL) {
+        goto done;
+    }
+
+    len = hashSize;
+    if (!CryptGetHashParam(hHash, HP_HASHVAL, hash, &len, 0)) {
+        LOG_LASTERROR("CryptGetHashParam failed while getting hash");
+        goto done;
+    }
+
+    outstr = malloc(hashSize * 2 + 1);
+    if (outstr == NULL) {
+        goto done;
+    }
+
+    outpos = outstr;
+    cch_left = hashSize * 2 + 1;
+    for (i = 0; i < hashSize; i++) {
+        StringCchPrintfExA(outpos, cch_left, &outpos, &cch_left, STRSAFE_FILL_ON_FAILURE,
+                           "%02X", (unsigned) hash[i]);
+    }
+
+    *outpos = '\0';
+
+done:
+
+    if (hHash != 0)
+        CryptDestroyHash(hHash);
+
+    if (hProv != 0)
+        CryptReleaseContext(hProv, 0);
+
+    if (hash != NULL)
+        free(hash);
+
+    return outstr;
+
+#endif
 }
 
 mit_krb5_error_code KRB5_CALLCONV
