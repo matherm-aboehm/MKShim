@@ -36,8 +36,21 @@
 /* override heimdals own prototypes */
 #define __krb5_protos_h__
 
+#ifndef _WIN32
+
 #define KRB5_LIB_VARIABLE
 #define KRB5_LIB_FUNCTION
+#define KRB5_LIB_CALL
+
+#else
+
+#define KRB5_LIB_VARIABLE
+#define KRB5_LIB_FUNCTION
+#define KRB5_LIB_CALL __stdcall
+
+#define __attribute__(x)
+
+#endif
 
 #include <Heimdal/krb5.h>
 
@@ -45,11 +58,39 @@ extern krb5_context milcontext;
 
 #include "mit-krb5.h"
 
+#ifdef _WIN32
+
+#define LOG_UNIMPLEMENTED() mshim_log_function_missing(__FUNCTION__)
+#define LOG_ENTRY() mshim_log_entry("MITKerberosShim: %s entered", __FUNCTION__)
+#define LOG_FAILURE(_r, _s) mshim_failure(__FUNCTION__, _r, _s)
+#define LOG_LASTERROR(_s) mshim_log_lasterror(__FUNCTION__, _s);
+
+typedef struct dispatch_once {
+    LONG initialized;
+    LONG initializing;
+} dispatch_once_t;
+
+void dispatch_once_f(dispatch_once_t * predicate, void * context,
+                     void (*function)(void *));
+
+#define HAVE_STRSAFE
+
+#else
+
 #include <syslog.h>
 
 #define LOG_UNIMPLEMENTED() mshim_log_function_missing(__func__)
 #define LOG_ENTRY() mshim_log_entry("MITKerberosShim: %s entered", __func__)
 #define LOG_FAILURE(_r, _s) mshim_failure(__func__, _r, _s)
+
+#endif
+
+#ifdef __APPLE__
+
+#define HAVE_DISPATCH_ONCE
+#define HAVE_COMMONCRYPTO_COMMONDIGEST_H
+
+#endif
 
 void
 mshim_log_entry(const char *func, ...);
@@ -57,6 +98,8 @@ mshim_log_entry(const char *func, ...);
 int
 mshim_failure(const char *func, int error, const char *subsystem);
 
+void
+mshim_log_lasterror(const char * func, const char * msg);
 
 /* this might not work, lets try it out, if anyone uses krb5_build_principal_va we are smoked */
 struct comb_principal {
