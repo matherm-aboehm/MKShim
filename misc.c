@@ -40,10 +40,15 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#ifdef __APPLE__
+
 #include <dispatch/dispatch.h>
 
 #include <CommonCrypto/CommonDigest.h>
 #include <CoreFoundation/CoreFoundation.h>
+
+#endif
+
 #include <Heimdal/gkrb5_err.h>
 #include <Heimdal/wind_err.h>
 #include <Heimdal/krb_err.h>
