@@ -67,7 +67,7 @@ string_release(cc_string_t io_string)
 
 
 cc_string_f string_functions =  {
-    .release = string_release
+    string_release
 };
 
 static cc_string_t
@@ -381,8 +381,8 @@ cred_compare (cc_credentials_t  in_credentials,
 }
 
 cc_credentials_f credential_functions = {
-    .release = cred_release,
-    .compare = cred_compare
+    cred_release,
+    cred_compare
 };
 
 
@@ -456,9 +456,9 @@ cred_iter_clone (cc_credentials_iterator_t  in_credentials_iterator,
 
 
 struct cc_credentials_iterator_f cred_iter_functions = {
-    .release = cred_iter_release,
-    .next = cred_iter_next,
-    .clone = cred_iter_clone
+    cred_iter_release,
+    cred_iter_next,
+    cred_iter_clone
 };
 
 
@@ -862,26 +862,26 @@ ccache_wait_for_change(cc_ccache_t in_ccache)
 }
 
 static cc_ccache_f ccache_functions = {
-    .release = ccache_release,
-    .destroy = ccache_destroy,
-    .set_default = ccache_set_default,
-    .get_credentials_version = ccache_get_credentials_version,
-    .get_name = ccache_get_name,
-    .get_principal = ccache_get_principal,
-    .set_principal = ccache_set_principal,
-    .store_credentials = ccache_store_credentials,
-    .remove_credentials = ccache_remove_credentials,
-    .new_credentials_iterator = ccache_new_credentials_iterator,
-    .move = ccache_move,
-    .lock = ccache_lock,
-    .unlock = ccache_unlock,
-    .get_last_default_time = ccache_get_last_default_time,
-    .get_change_time = ccache_get_change_time,
-    .compare = ccache_compare,
-    .get_kdc_time_offset = ccache_get_kdc_time_offset,
-    .set_kdc_time_offset = ccache_set_kdc_time_offset,
-    .clear_kdc_time_offset = ccache_clear_kdc_time_offset,
-    .wait_for_change = ccache_wait_for_change
+    ccache_release,
+    ccache_destroy,
+    ccache_set_default,
+    ccache_get_credentials_version,
+    ccache_get_name,
+    ccache_get_principal,
+    ccache_set_principal,
+    ccache_store_credentials,
+    ccache_remove_credentials,
+    ccache_new_credentials_iterator,
+    ccache_move,
+    ccache_lock,
+    ccache_unlock,
+    ccache_get_last_default_time,
+    ccache_get_change_time,
+    ccache_compare,
+    ccache_get_kdc_time_offset,
+    ccache_set_kdc_time_offset,
+    ccache_clear_kdc_time_offset,
+    ccache_wait_for_change
 };
 
 static cc_ccache_t
@@ -955,9 +955,9 @@ cc_iterator_clone(cc_ccache_iterator_t  in_ccache_iterator,
 }
 
 static cc_ccache_iterator_f ccache_iterator_functions = {
-    .release = cc_iterator_release,
-    .next = cc_iterator_next,
-    .clone = cc_iterator_clone
+    cc_iterator_release,
+    cc_iterator_next,
+    cc_iterator_clone
 };
 
 
@@ -1272,19 +1272,19 @@ context_wait_for_change(cc_context_t in_cc_context)
 
 
 cc_context_f cc_functions = {
-    .release = context_release,
-    .get_change_time = context_get_change_time,
-    .get_default_ccache_name = context_get_default_ccache_name,
-    .open_ccache = context_open_ccache,
-    .open_default_ccache = context_open_default_ccache,
-    .create_ccache = context_create_ccache,
-    .create_default_ccache = context_create_default_ccache,
-    .create_new_ccache = context_create_new_ccache,
-    .new_ccache_iterator = context_new_ccache_iterator,
-    .lock = context_lock,
-    .unlock = context_unlock,
-    .compare = context_compare,
-    .wait_for_change = context_wait_for_change
+    context_release,
+    context_get_change_time,
+    context_get_default_ccache_name,
+    context_open_ccache,
+    context_open_default_ccache,
+    context_create_ccache,
+    context_create_default_ccache,
+    context_create_new_ccache,
+    context_new_ccache_iterator,
+    context_lock,
+    context_unlock,
+    context_compare,
+    context_wait_for_change
 };
 
 
