@@ -1,0 +1,41 @@
+
+!include "NTMakefile.w32"
+
+
+SHIMOBJS=\
+	$(OBJ)\auth_context.obj	\
+	$(OBJ)\cache.obj	\
+	$(OBJ)\ccache.obj	\
+	$(OBJ)\creds.obj	\
+	$(OBJ)\crypto.obj	\
+	$(OBJ)\gic.obj		\
+	$(OBJ)\gss-glue.obj	\
+	$(OBJ)\gss-symbols.obj	\
+	$(OBJ)\keytab.obj	\
+	$(OBJ)\log.obj		\
+	$(OBJ)\misc.obj		\
+	$(OBJ)\misc-mit.obj	\
+	$(OBJ)\mk_req.obj	\
+	$(OBJ)\password.obj	\
+	$(OBJ)\principal.obj	\
+	$(OBJ)\rd_req.obj	\
+
+KRB5OBJS=\
+	$(OBJ)\auth_context.obj	\
+	$(OBJ)\cache.obj	\
+	$(OBJ)\creds.obj	\
+	$(OBJ)\crypto.obj	\
+	$(OBJ)\gic.obj		\
+	$(OBJ)\keytab.obj	\
+	$(OBJ)\log.obj		\
+	$(OBJ)\misc.obj		\
+	$(OBJ)\misc-mit.obj	\
+	$(OBJ)\mk_req.obj	\
+	$(OBJ)\password.obj	\
+	$(OBJ)\principal.obj	\
+	$(OBJ)\rd_req.obj	\
+
+$(OBJ)\krb5.dll: $(KRB5OBJS)
+	$(DLLGUILINK)
+
+all:: $(SHIMOBJS) $(OBJ)\krb5.dll
