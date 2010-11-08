@@ -75,7 +75,7 @@ mshim_malloc(size_t size)
 {
     void *ptr = malloc(size);
     if (ptr == NULL) {
-	syslog(LOG_DEBUG, "mshim_malloc: can't allocate %d", (int)size);
+	mshim_log_entry("mshim_malloc: can't allocate %d", (int)size);
 	abort();
     }
     memset(ptr, 0, size);
