@@ -771,6 +771,8 @@ krb5_set_real_time(mit_krb5_context context,
     return heim_krb5_set_real_time(HC(context), ts, usec);
 }
 
+#ifdef __APPLE__
+
 #include "Kerberos/kim_library.h"
 
 kim_error
@@ -780,3 +782,4 @@ kim_library_set_ui_environment(kim_ui_environment in_ui_environment)
     return 0;
 }
 
+#endif
