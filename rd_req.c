@@ -237,8 +237,9 @@ krb5_rd_priv(mit_krb5_context context,
     krb5_replay_data outdata;
     mit_krb5_error_code ret;
 
-    LOG_ENTRY();
     krb5_data in, out;
+
+    LOG_ENTRY();
 
     memset(outbuf, 0, sizeof(*outbuf));
     memset(&outdata, 0, sizeof(outdata));
@@ -275,8 +276,9 @@ krb5_rd_safe(mit_krb5_context context,
     krb5_replay_data outdata;
     mit_krb5_error_code ret;
 
-    LOG_ENTRY();
     krb5_data in, out;
+
+    LOG_ENTRY();
 
     memset(outbuf, 0, sizeof(*outbuf));
     memset(&outdata, 0, sizeof(outdata));

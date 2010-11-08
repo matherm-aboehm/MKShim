@@ -116,9 +116,10 @@ krb5_auth_con_getlocalsubkey(mit_krb5_context context,
 			     mit_krb5_auth_context ac,
 			     mit_krb5_keyblock **key)
 {
-    LOG_ENTRY();
     krb5_keyblock *hkey = NULL;
     krb5_error_code ret;
+
+    LOG_ENTRY();
 
     *key = NULL;
 
@@ -140,9 +141,10 @@ krb5_auth_con_getremotesubkey(mit_krb5_context context,
 			      mit_krb5_auth_context ac,
 			      mit_krb5_keyblock **key)
 {
-    LOG_ENTRY();
     krb5_keyblock *hkey = NULL;
     krb5_error_code ret;
+
+    LOG_ENTRY();
 
     *key = NULL;
 

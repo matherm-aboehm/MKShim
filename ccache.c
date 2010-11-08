@@ -922,13 +922,15 @@ cc_iterator_next(cc_ccache_iterator_t  in_ccache_iterator,
 
 
     while (1) {
+        const char *type;
+
 	ret = krb5_cccol_cursor_next((mit_krb5_context)milcontext, c->cursor, (mit_krb5_ccache *)&id);
 	if (ret == KRB5_CC_END || id == NULL)
 	    return ccIteratorEnd;
 	else if (ret)
 	    return LOG_FAILURE(ret, "ccol next cursor");
 
-	const char *type = heim_krb5_cc_get_type(milcontext, id);
+	type = heim_krb5_cc_get_type(milcontext, id);
 	if (strcmp(type, "API") == 0 || strcmp(type, "KCM") == 0)
 	    break;
 	heim_krb5_cc_close(milcontext, id);
@@ -1206,10 +1208,10 @@ static cc_int32
 context_new_ccache_iterator(cc_context_t in_context,
 			    cc_ccache_iterator_t *out_iterator)
 {
-    LOG_ENTRY();
-
     krb5_error_code ret;
     struct cc_iter *c;
+
+    LOG_ENTRY();
 
     if (out_iterator == NULL)
 	return ccErrBadParam;
