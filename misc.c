@@ -54,48 +54,21 @@
 #include <Heimdal/krb_err.h>
 #include <Heimdal/hx509_err.h>
 
+#ifdef HAVE_STRSAFE
+#include <strsafe.h>
+#endif
+
+#ifdef _WIN32
+
+const char *__KerberosInternal_krb5_defkeyname = "FILE:%{COMMONCONFIG}/krb5.keytab";
+
+#else
+
 const char *__KerberosInternal_krb5_defkeyname = "FILE:/etc/krb5.keytab";
 
+#endif
+
 int krb5_use_broken_arcfour_string2key = 0;
-
-static int do_log = 0;
-
-static void
-init_log(void)
-{
-    static dispatch_once_t once = 0;
-    dispatch_once(&once, ^{
-	    CFBooleanRef b;
-	    b = CFPreferencesCopyAppValue(CFSTR("EnableDebugging"),
-					  CFSTR("com.apple.MITKerberosShim"));
-	    if (b && CFGetTypeID(b) == CFBooleanGetTypeID())
-		do_log = CFBooleanGetValue(b);
-    });
-}
-
-
-void
-mshim_log_entry(const char *msg, ...)
-{
-    init_log();
-
-    if (do_log) {
-	va_list ap;
-	va_start(ap, msg);
-	vsyslog(LOG_DEBUG, msg, ap);
-	va_end(ap);
-    }
-}
-
-int
-mshim_failure(const char *func, int error, const char *subsystem)
-{
-    init_log();
-
-    if (do_log && error)
-	syslog(LOG_DEBUG, "%s failed with %d for '%s'", func, error, subsystem);
-    return error;
-}
 
 void *
 mshim_malloc(size_t size)
