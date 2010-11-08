@@ -31,11 +31,17 @@
  * SUCH DAMAGE.
  */
 
+#define GSS_DLL_FILE
+
 #include "mit-gssapi.h"
 
 #define rk_UNCONST(x) x
-#define GSSAPI_LIB_VARIABLE
 
+#ifdef _WIN32
+#define GSSAPI_LIB_VARIABLE __declspec(dllexport)
+#else
+#define GSSAPI_LIB_VARIABLE
+#endif
 
 /*
  * The implementation must reserve static storage for a
@@ -52,7 +58,7 @@
 static gss_OID_desc gss_c_nt_user_name_oid_desc =
     {10, rk_UNCONST("\x2a\x86\x48\x86\xf7\x12" "\x01\x02\x01\x01")};
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_USER_NAME =
+GSSAPI_LIB_VARIABLE gss_OID GSS_C_NT_USER_NAME =
     &gss_c_nt_user_name_oid_desc;
 
 
@@ -71,7 +77,7 @@ gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_USER_NAME =
 static gss_OID_desc gss_c_nt_machine_uid_name_oid_desc =
     {10, rk_UNCONST("\x2a\x86\x48\x86\xf7\x12" "\x01\x02\x01\x02")};
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_MACHINE_UID_NAME =
+GSSAPI_LIB_VARIABLE gss_OID GSS_C_NT_MACHINE_UID_NAME =
     &gss_c_nt_machine_uid_name_oid_desc;
 
 /*
@@ -89,7 +95,7 @@ gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_MACHINE_UID_NAME =
 static gss_OID_desc gss_c_nt_string_uid_name_oid_desc =
     {10, rk_UNCONST("\x2a\x86\x48\x86\xf7\x12" "\x01\x02\x01\x03")};
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_STRING_UID_NAME =
+GSSAPI_LIB_VARIABLE gss_OID GSS_C_NT_STRING_UID_NAME =
     &gss_c_nt_string_uid_name_oid_desc;
 
 /*
@@ -113,7 +119,7 @@ gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_STRING_UID_NAME =
 static gss_OID_desc gss_c_nt_hostbased_service_x_oid_desc =
     {6, rk_UNCONST("\x2b\x06\x01\x05\x06\x02")};
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_HOSTBASED_SERVICE_X =
+GSSAPI_LIB_VARIABLE gss_OID GSS_C_NT_HOSTBASED_SERVICE_X =
     &gss_c_nt_hostbased_service_x_oid_desc;
 
 /*
@@ -130,13 +136,13 @@ gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_HOSTBASED_SERVICE_X =
 static gss_OID_desc gss_c_nt_hostbased_service_oid_desc =
     {10, rk_UNCONST("\x2a\x86\x48\x86\xf7\x12" "\x01\x02\x01\x04")};
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_HOSTBASED_SERVICE =
+GSSAPI_LIB_VARIABLE gss_OID GSS_C_NT_HOSTBASED_SERVICE =
     &gss_c_nt_hostbased_service_oid_desc;
 
-gss_OID GSSAPI_LIB_VARIABLE gss_nt_service_name = 
+GSSAPI_LIB_VARIABLE gss_OID gss_nt_service_name = 
     &gss_c_nt_hostbased_service_oid_desc;
 
-gss_OID GSSAPI_LIB_VARIABLE gss_nt_service_name_v2 = 
+GSSAPI_LIB_VARIABLE gss_OID gss_nt_service_name_v2 = 
     &gss_c_nt_hostbased_service_oid_desc;
 
 /*
@@ -153,7 +159,7 @@ gss_OID GSSAPI_LIB_VARIABLE gss_nt_service_name_v2 =
 static gss_OID_desc gss_c_nt_anonymous_oid_desc =
     {6, rk_UNCONST("\x2b\x06\01\x05\x06\x03")};
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_ANONYMOUS =
+GSSAPI_LIB_VARIABLE gss_OID GSS_C_NT_ANONYMOUS =
     &gss_c_nt_anonymous_oid_desc;
 
 /*
@@ -170,10 +176,10 @@ gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_ANONYMOUS =
 static gss_OID_desc gss_c_nt_export_name_oid_desc =
     {6, rk_UNCONST("\x2b\x06\x01\x05\x06\x04") };
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_C_NT_EXPORT_NAME =
+GSSAPI_LIB_VARIABLE gss_OID GSS_C_NT_EXPORT_NAME =
     &gss_c_nt_export_name_oid_desc;
 
-gss_OID GSSAPI_LIB_VARIABLE gss_nt_exported_name =
+GSSAPI_LIB_VARIABLE gss_OID gss_nt_exported_name =
     &gss_c_nt_export_name_oid_desc;
 
 /*
@@ -186,10 +192,10 @@ gss_OID GSSAPI_LIB_VARIABLE gss_nt_exported_name =
 static gss_OID_desc gss_krb5_nt_principal_name_oid_desc =
     {10, rk_UNCONST("\x2a\x86\x48\x86\xf7\x12\x01\x02\x02\x01") };
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_KRB5_NT_PRINCIPAL_NAME =
+GSSAPI_LIB_VARIABLE gss_OID GSS_KRB5_NT_PRINCIPAL_NAME =
     &gss_krb5_nt_principal_name_oid_desc;
 
-gss_OID GSSAPI_LIB_VARIABLE gss_nt_krb5_name = 
+GSSAPI_LIB_VARIABLE gss_OID gss_nt_krb5_name = 
     &gss_krb5_nt_principal_name_oid_desc;
 
 
@@ -198,7 +204,7 @@ gss_OID GSSAPI_LIB_VARIABLE gss_nt_krb5_name =
 static gss_OID_desc gss_krb5_nt_principal_oid_desc =
     {10, rk_UNCONST("\x2a\x86\x48\x86\xf7\x12\x01\x02\x02\x02") };
 
-gss_OID GSSAPI_LIB_VARIABLE gss_nt_krb5_principal =
+GSSAPI_LIB_VARIABLE gss_OID gss_nt_krb5_principal =
     &gss_krb5_nt_principal_oid_desc;
 
 
@@ -209,10 +215,10 @@ gss_OID GSSAPI_LIB_VARIABLE gss_nt_krb5_principal =
  *   type is "GSS_KRB5_NT_USER_NAME".
  */
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_KRB5_NT_USER_NAME =
+GSSAPI_LIB_VARIABLE gss_OID GSS_KRB5_NT_USER_NAME =
     &gss_c_nt_user_name_oid_desc;
 
-gss_OID GSSAPI_LIB_VARIABLE gss_nt_user_name =
+GSSAPI_LIB_VARIABLE gss_OID gss_nt_user_name =
     &gss_c_nt_user_name_oid_desc;
 
 /*
@@ -222,10 +228,10 @@ gss_OID GSSAPI_LIB_VARIABLE gss_nt_user_name =
  *   this type is "GSS_KRB5_NT_MACHINE_UID_NAME".
  */
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_KRB5_NT_MACHINE_UID_NAME =
+GSSAPI_LIB_VARIABLE gss_OID GSS_KRB5_NT_MACHINE_UID_NAME =
     &gss_c_nt_machine_uid_name_oid_desc;
 
-gss_OID GSSAPI_LIB_VARIABLE gss_nt_machine_uid_name =
+GSSAPI_LIB_VARIABLE gss_OID gss_nt_machine_uid_name =
     &gss_c_nt_machine_uid_name_oid_desc;
 
 /*
@@ -235,10 +241,10 @@ gss_OID GSSAPI_LIB_VARIABLE gss_nt_machine_uid_name =
  *   this type is "GSS_KRB5_NT_STRING_UID_NAME".
  */
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_KRB5_NT_STRING_UID_NAME =
+GSSAPI_LIB_VARIABLE gss_OID GSS_KRB5_NT_STRING_UID_NAME =
     &gss_c_nt_string_uid_name_oid_desc;
 
-gss_OID GSSAPI_LIB_VARIABLE gss_nt_string_uid_name =
+GSSAPI_LIB_VARIABLE gss_OID gss_nt_string_uid_name =
     &gss_c_nt_string_uid_name_oid_desc;
 
 /*
@@ -264,13 +270,13 @@ static gss_OID_desc gss_krb5_mechanism_oid_desc =
 static gss_OID_desc gss_krb5_mechanism_old_oid_desc =
     {5, rk_UNCONST("\053\005\001\005\002") };
 
-gss_OID GSSAPI_LIB_VARIABLE GSS_KRB5_MECHANISM =
+GSSAPI_LIB_VARIABLE gss_OID GSS_KRB5_MECHANISM =
     &gss_krb5_mechanism_oid_desc;
 
-gss_OID GSSAPI_LIB_VARIABLE gss_mech_krb5 =
+GSSAPI_LIB_VARIABLE gss_OID gss_mech_krb5 =
     &gss_krb5_mechanism_oid_desc;
 
-gss_OID GSSAPI_LIB_VARIABLE gss_mech_krb5_old =
+GSSAPI_LIB_VARIABLE gss_OID gss_mech_krb5_old =
     &gss_krb5_mechanism_old_oid_desc;
 
 /*
