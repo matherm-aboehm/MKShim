@@ -31,6 +31,11 @@
  * SUCH DAMAGE.
  */
 
+#ifdef _WIN32
+#include <ws2tcpip.h>
+#include <roken.h>
+#endif
+
 #include "mit-CredentialsCache.h"
 #include <string.h>
 #include <stdlib.h>
@@ -39,7 +44,6 @@
 #include <stdio.h>
 
 #include "heim.h"
-#include "heim-sym.h"
 
 static cc_time_t context_change_time = 0;
 

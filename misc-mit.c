@@ -24,6 +24,9 @@
  */
 
 #include "heim.h"
+#ifdef _WIN32
+#include <roken.h>
+#endif
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>

@@ -5,9 +5,14 @@
 #ifndef __GSSAPI__
 #define __GSSAPI__
 
+#ifndef _WIN32
+
 /* This is the gssapi.h prologue. */
 #include <stdint.h>
 #include <inttypes.h>
+
+#endif
+
 /* no xom.h */
 /* End of gssapi.h prologue. */
 /* -*- mode: c; indent-tabs-mode: nil -*- */

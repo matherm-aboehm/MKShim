@@ -1,5 +1,7 @@
 /* This is the gssapi_krb5.h prologue. */
+#ifndef _WIN32
 #include <stdint.h>
+#endif
 /* End of gssapi_krb5.h prologue. */
 /* -*- mode: c; indent-tabs-mode: nil -*- */
 /*
