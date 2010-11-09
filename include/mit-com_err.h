@@ -66,7 +66,7 @@ typedef long errcode_t;
 typedef void (*com_err_handler_t)
     (const char *whoami, errcode_t code, const char *format, va_list args);
 
-struct error_table {
+struct mit_error_table {
     const char * const * const messages;
     int32_t base;
     int32_t count;
@@ -76,17 +76,17 @@ struct error_table {
 /* Function prototypes */
 /* ******************* */
 
-void com_err    (const char *progname, errcode_t code, const char *format, ...);
-void com_err_va (const char *progname, errcode_t code, const char *format, va_list args);
+void mit_com_err    (const char *progname, errcode_t code, const char *format, ...);
+void mit_com_err_va (const char *progname, errcode_t code, const char *format, va_list args);
 
-const char *error_message (errcode_t code);
-const char *error_manager (errcode_t code);
+const char *mit_error_message (errcode_t code);
+const char *mit_error_manager (errcode_t code);
 
-com_err_handler_t set_com_err_hook(com_err_handler_t handler);
-com_err_handler_t reset_com_err_hook(void);
+com_err_handler_t mit_set_com_err_hook(com_err_handler_t handler);
+com_err_handler_t mit_reset_com_err_hook(void);
 
-errcode_t add_error_table    (const struct error_table *et);
-errcode_t remove_error_table (const struct error_table *et);
+errcode_t mit_add_error_table    (const struct mit_error_table *et);
+errcode_t mit_remove_error_table (const struct mit_error_table *et);
 
 #ifdef __cplusplus
 }
