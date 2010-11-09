@@ -38,11 +38,11 @@
 
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_c_string_to_key(mit_krb5_context context,
-		     mit_krb5_enctype enctype,
-		     const mit_krb5_data *string,
-		     const mit_krb5_data *salt,
-		     mit_krb5_keyblock *key)
+mit_krb5_c_string_to_key(mit_krb5_context context,
+                         mit_krb5_enctype enctype,
+                         const mit_krb5_data *string,
+                         const mit_krb5_data *salt,
+                         mit_krb5_keyblock *key)
 {
     krb5_data hstring;
     krb5_error_code ret;
@@ -68,9 +68,9 @@ krb5_c_string_to_key(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_principal2salt(mit_krb5_context context,
-		    mit_krb5_const_principal principal,
-		    mit_krb5_data *salt)
+mit_krb5_principal2salt(mit_krb5_context context,
+                        mit_krb5_const_principal principal,
+                        mit_krb5_data *salt)
 {
     struct comb_principal *c =  (struct comb_principal *)principal;
     krb5_error_code ret;
@@ -88,20 +88,20 @@ krb5_principal2salt(mit_krb5_context context,
 
 
 mit_krb5_error_code  KRB5_CALLCONV
-krb5_set_default_tgs_ktypes(mit_krb5_context, const mit_krb5_enctype *);
+mit_krb5_set_default_tgs_ktypes(mit_krb5_context, const mit_krb5_enctype *);
 
 
 mit_krb5_error_code  KRB5_CALLCONV
-krb5_set_default_tgs_ktypes(mit_krb5_context context,
-			    const mit_krb5_enctype *enc)
+mit_krb5_set_default_tgs_ktypes(mit_krb5_context context,
+                                const mit_krb5_enctype *enc)
 {
     LOG_ENTRY();
     return heim_krb5_set_default_in_tkt_etypes(HC(context), (krb5_enctype *)enc);
 }
 
 mit_krb5_error_code KRB5_CALLCONV 
-krb5_set_default_tgs_enctypes(mit_krb5_context context,
-			      const mit_krb5_enctype *enc)
+mit_krb5_set_default_tgs_enctypes(mit_krb5_context context,
+                                  const mit_krb5_enctype *enc)
 {
     LOG_ENTRY();
     return heim_krb5_set_default_in_tkt_etypes(HC(context), (krb5_enctype *)enc);

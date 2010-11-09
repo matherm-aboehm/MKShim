@@ -38,25 +38,25 @@
 #include <errno.h>
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_init(mit_krb5_get_init_creds_opt *opt)
+mit_krb5_get_init_creds_opt_init(mit_krb5_get_init_creds_opt *opt)
 {
     LOG_ENTRY();
     memset(opt, 0, sizeof(*opt));
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_init_creds_opt_set_process_last_req(mit_krb5_context context,
-					     mit_krb5_get_init_creds_opt *opt,
-					     mit_krb5_gic_process_last_req req,
-					     void *ctx)
+mit_krb5_get_init_creds_opt_set_process_last_req(mit_krb5_context context,
+                                                 mit_krb5_get_init_creds_opt *opt,
+                                                 mit_krb5_gic_process_last_req req,
+                                                 void *ctx)
 {
     LOG_ENTRY();
     return 0;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_init_creds_opt_alloc(mit_krb5_context context,
-			      mit_krb5_get_init_creds_opt **opt)
+mit_krb5_get_init_creds_opt_alloc(mit_krb5_context context,
+                                  mit_krb5_get_init_creds_opt **opt)
 {
     mit_krb5_get_init_creds_opt *c;
     LOG_ENTRY();
@@ -68,8 +68,8 @@ krb5_get_init_creds_opt_alloc(mit_krb5_context context,
 }
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_free(mit_krb5_context context,
-			     mit_krb5_get_init_creds_opt *opt)
+mit_krb5_get_init_creds_opt_free(mit_krb5_context context,
+                                 mit_krb5_get_init_creds_opt *opt)
 {
     LOG_ENTRY();
     free(opt);
@@ -77,8 +77,8 @@ krb5_get_init_creds_opt_free(mit_krb5_context context,
 
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_set_tkt_life(mit_krb5_get_init_creds_opt *opt,
-				     mit_krb5_deltat tkt_life)
+mit_krb5_get_init_creds_opt_set_tkt_life(mit_krb5_get_init_creds_opt *opt,
+                                         mit_krb5_deltat tkt_life)
 {
     LOG_ENTRY();
     opt->flags |= MIT_KRB5_GET_INIT_CREDS_OPT_TKT_LIFE;
@@ -86,8 +86,8 @@ krb5_get_init_creds_opt_set_tkt_life(mit_krb5_get_init_creds_opt *opt,
 }
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_set_renew_life(mit_krb5_get_init_creds_opt *opt,
-				       mit_krb5_deltat renew_life)
+mit_krb5_get_init_creds_opt_set_renew_life(mit_krb5_get_init_creds_opt *opt,
+                                           mit_krb5_deltat renew_life)
 {
     LOG_ENTRY();
     opt->flags |= MIT_KRB5_GET_INIT_CREDS_OPT_RENEW_LIFE;
@@ -95,8 +95,8 @@ krb5_get_init_creds_opt_set_renew_life(mit_krb5_get_init_creds_opt *opt,
 }
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_set_forwardable(mit_krb5_get_init_creds_opt *opt,
-					int forwardable)
+mit_krb5_get_init_creds_opt_set_forwardable(mit_krb5_get_init_creds_opt *opt,
+                                            int forwardable)
 {
     LOG_ENTRY();
     opt->flags |= MIT_KRB5_GET_INIT_CREDS_OPT_FORWARDABLE;
@@ -104,8 +104,8 @@ krb5_get_init_creds_opt_set_forwardable(mit_krb5_get_init_creds_opt *opt,
 }
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_set_proxiable(mit_krb5_get_init_creds_opt *opt,
-				      int proxiable)
+mit_krb5_get_init_creds_opt_set_proxiable(mit_krb5_get_init_creds_opt *opt,
+                                          int proxiable)
 {
     LOG_ENTRY();
     opt->flags |= MIT_KRB5_GET_INIT_CREDS_OPT_PROXIABLE;
@@ -113,17 +113,17 @@ krb5_get_init_creds_opt_set_proxiable(mit_krb5_get_init_creds_opt *opt,
 }
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_set_canonicalize(mit_krb5_get_init_creds_opt *opt,
-					 int canonicalize)
+mit_krb5_get_init_creds_opt_set_canonicalize(mit_krb5_get_init_creds_opt *opt,
+                                             int canonicalize)
 {
     LOG_ENTRY();
     opt->flags |= MIT_KRB5_GET_INIT_CREDS_OPT_CANONICALIZE;
 }
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_set_etype_list(mit_krb5_get_init_creds_opt *opt,
-				       mit_krb5_enctype *etype_list,
-				       int etype_list_length)
+mit_krb5_get_init_creds_opt_set_etype_list(mit_krb5_get_init_creds_opt *opt,
+                                           mit_krb5_enctype *etype_list,
+                                           int etype_list_length)
 {
     LOG_ENTRY();
     opt->flags |= KRB5_GET_INIT_CREDS_OPT_ETYPE_LIST;
@@ -132,16 +132,16 @@ krb5_get_init_creds_opt_set_etype_list(mit_krb5_get_init_creds_opt *opt,
 }
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_set_address_list(mit_krb5_get_init_creds_opt *opt,
-					 mit_krb5_address **addresses)
+mit_krb5_get_init_creds_opt_set_address_list(mit_krb5_get_init_creds_opt *opt,
+                                             mit_krb5_address **addresses)
 {
     LOG_UNIMPLEMENTED();
 }
 
 void KRB5_CALLCONV
-krb5_get_init_creds_opt_set_preauth_list(mit_krb5_get_init_creds_opt *opt,
-					 mit_krb5_preauthtype *preauth_list,
-					 int preauth_list_length)
+mit_krb5_get_init_creds_opt_set_preauth_list(mit_krb5_get_init_creds_opt *opt,
+                                             mit_krb5_preauthtype *preauth_list,
+                                             int preauth_list_length)
 {
     LOG_ENTRY();
 }
@@ -168,15 +168,15 @@ mshim_gic_opt(krb5_context context, mit_krb5_get_init_creds_opt *mopt)
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_init_creds_password(mit_krb5_context context,
-			     mit_krb5_creds *creds,
-			     mit_krb5_principal client,
-			     char *password,
-			     mit_krb5_prompter_fct prompter,
-			     void *data,
-			     mit_krb5_deltat start_time,
-			     char *in_tkt_service,
-			     mit_krb5_get_init_creds_opt *mopt)
+mit_krb5_get_init_creds_password(mit_krb5_context context,
+                                 mit_krb5_creds *creds,
+                                 mit_krb5_principal client,
+                                 char *password,
+                                 mit_krb5_prompter_fct prompter,
+                                 void *data,
+                                 mit_krb5_deltat start_time,
+                                 char *in_tkt_service,
+                                 mit_krb5_get_init_creds_opt *mopt)
 {
     struct comb_principal *p = (struct comb_principal *)client;
     krb5_get_init_creds_opt *opt = NULL;
@@ -191,7 +191,7 @@ krb5_get_init_creds_password(mit_krb5_context context,
     memset(creds, 0, sizeof(*creds));
     memset(&hcreds, 0, sizeof(hcreds));
 
-    if (prompter == krb5_prompter_posix)
+    if (prompter == mit_krb5_prompter_posix)
 	pfct = heim_krb5_prompter_posix;
     else if (prompter == NULL)
 	pfct = NULL;
@@ -216,13 +216,13 @@ krb5_get_init_creds_password(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_init_creds_keytab(mit_krb5_context context,
-			   mit_krb5_creds *creds,
-			   mit_krb5_principal client,
-			   mit_krb5_keytab arg_keytab,
-			   mit_krb5_deltat start_time,
-			   char *in_tkt_service,
-			   mit_krb5_get_init_creds_opt *mopt)
+mit_krb5_get_init_creds_keytab(mit_krb5_context context,
+                               mit_krb5_creds *creds,
+                               mit_krb5_principal client,
+                               mit_krb5_keytab arg_keytab,
+                               mit_krb5_deltat start_time,
+                               char *in_tkt_service,
+                               mit_krb5_get_init_creds_opt *mopt)
 {
     struct comb_principal *p = (struct comb_principal *)client;
     krb5_get_init_creds_opt *opt = NULL;
@@ -252,15 +252,15 @@ krb5_get_init_creds_keytab(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_in_tkt_with_password(mit_krb5_context context,
-			      mit_krb5_flags flags,
-			      mit_krb5_address * const *addr,
-			      mit_krb5_enctype *enctype,
-			      mit_krb5_preauthtype *preauth,
-			      const char *password,
-			      mit_krb5_ccache cache,
-			      mit_krb5_creds *cred,
-			      mit_krb5_kdc_rep **rep)
+mit_krb5_get_in_tkt_with_password(mit_krb5_context context,
+                                  mit_krb5_flags flags,
+                                  mit_krb5_address * const *addr,
+                                  mit_krb5_enctype *enctype,
+                                  mit_krb5_preauthtype *preauth,
+                                  const char *password,
+                                  mit_krb5_ccache cache,
+                                  mit_krb5_creds *cred,
+                                  mit_krb5_kdc_rep **rep)
 {
     struct comb_principal *p;
     krb5_error_code ret;
@@ -292,14 +292,14 @@ krb5_get_in_tkt_with_password(mit_krb5_context context,
 }
 
 void KRB5_CALLCONV
-krb5_verify_init_creds_opt_init(mit_krb5_verify_init_creds_opt *options)
+mit_krb5_verify_init_creds_opt_init(mit_krb5_verify_init_creds_opt *options)
 {
     memset(options, 0, sizeof(options));
 }
 
 void KRB5_CALLCONV
-krb5_verify_init_creds_opt_set_ap_req_nofail(mit_krb5_verify_init_creds_opt *options,
-					     int ap_req_nofail)
+mit_krb5_verify_init_creds_opt_set_ap_req_nofail(mit_krb5_verify_init_creds_opt *options,
+                                                 int ap_req_nofail)
 {
     if (ap_req_nofail) {
 	options->flags |= MIT_KRB5_VERIFY_INIT_CREDS_OPT_AP_REQ_NOFAIL;
@@ -310,12 +310,12 @@ krb5_verify_init_creds_opt_set_ap_req_nofail(mit_krb5_verify_init_creds_opt *opt
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_verify_init_creds(mit_krb5_context context,
-		       mit_krb5_creds *creds,
-		       mit_krb5_principal ap_req_server,
-		       mit_krb5_keytab ap_req_keytab,
-		       mit_krb5_ccache *ccache,
-		       mit_krb5_verify_init_creds_opt *options)
+mit_krb5_verify_init_creds(mit_krb5_context context,
+                           mit_krb5_creds *creds,
+                           mit_krb5_principal ap_req_server,
+                           mit_krb5_keytab ap_req_keytab,
+                           mit_krb5_ccache *ccache,
+                           mit_krb5_verify_init_creds_opt *options)
 {
     struct comb_principal *p = (struct comb_principal *)ap_req_server;
     krb5_error_code ret;

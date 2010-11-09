@@ -34,7 +34,7 @@
 #include <ctype.h>
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_string_to_timestamp(char *string, mit_krb5_timestamp *timestampp)
+mit_krb5_string_to_timestamp(char *string, mit_krb5_timestamp *timestampp)
 {
     int i;
     struct tm timebuf, timebuf2;

@@ -216,7 +216,7 @@ make_cred_from_ccred(krb5_context context,
 
 nomem:
     ret = ENOMEM;
-    krb5_set_error_message((mit_krb5_context)context, ret, "malloc: out of memory");
+    mit_krb5_set_error_message((mit_krb5_context)context, ret, "malloc: out of memory");
 
 fail:
     heim_krb5_free_cred_contents(context, cred);
@@ -343,7 +343,7 @@ make_ccred_from_cred(krb5_context context,
 fail:
     free_ccred(cred);
 
-    krb5_clear_error_message((mit_krb5_context)context);
+    mit_krb5_clear_error_message((mit_krb5_context)context);
     return ret;
 }
 
@@ -417,7 +417,7 @@ cred_iter_release(cc_credentials_iterator_t io_credentials_iterator)
     struct cred_iterator *ci = (struct cred_iterator *)io_credentials_iterator;
     LOG_ENTRY();
     if (ci->id)
-	krb5_cc_end_seq_get ((mit_krb5_context)milcontext,
+	mit_krb5_cc_end_seq_get ((mit_krb5_context)milcontext,
 			     (mit_krb5_ccache)ci->id,
 			     (mit_krb5_cc_cursor *)&ci->cursor);
     free(ci);
@@ -487,7 +487,7 @@ ccache_destroy(cc_ccache_t io_ccache)
     struct cc_ccache *c = (struct cc_ccache *)io_ccache;
     LOG_ENTRY();
     update_time(&context_change_time);
-    krb5_cc_destroy((mit_krb5_context)milcontext, (mit_krb5_ccache)c->id);
+    mit_krb5_cc_destroy((mit_krb5_context)milcontext, (mit_krb5_ccache)c->id);
     c->id = NULL;
     return ccNoError;
 }
@@ -682,7 +682,7 @@ ccache_new_credentials_iterator(cc_ccache_t in_ccache, cc_credentials_iterator_t
     ci = calloc(1, sizeof(*c));
     ci->iterator.functions = &cred_iter_functions;
     ci->id = c->id;
-    ret = krb5_cc_start_seq_get((mit_krb5_context)milcontext, 
+    ret = mit_krb5_cc_start_seq_get((mit_krb5_context)milcontext, 
 				(mit_krb5_ccache)c->id,
 				(mit_krb5_cc_cursor *)&ci->cursor);
     if (ret) {
@@ -906,7 +906,7 @@ cc_iterator_release(cc_ccache_iterator_t io_ccache_iterator)
 {
     struct cc_iter *c = (struct cc_iter *)io_ccache_iterator;
     LOG_ENTRY();
-    krb5_cccol_cursor_free((mit_krb5_context)milcontext, &c->cursor);
+    mit_krb5_cccol_cursor_free((mit_krb5_context)milcontext, &c->cursor);
     free(c);
     return ccNoError;
 }
@@ -928,7 +928,7 @@ cc_iterator_next(cc_ccache_iterator_t  in_ccache_iterator,
     while (1) {
         const char *type;
 
-	ret = krb5_cccol_cursor_next((mit_krb5_context)milcontext, c->cursor, (mit_krb5_ccache *)&id);
+	ret = mit_krb5_cccol_cursor_next((mit_krb5_context)milcontext, c->cursor, (mit_krb5_ccache *)&id);
 	if (ret == KRB5_CC_END || id == NULL)
 	    return ccIteratorEnd;
 	else if (ret)
@@ -989,7 +989,7 @@ context_get_default_ccache_name(cc_context_t  in_context,
 				cc_string_t  *out_name)
 {
     const char *name;
-    name = krb5_cc_default_name((mit_krb5_context)milcontext);
+    name = mit_krb5_cc_default_name((mit_krb5_context)milcontext);
     if (name == NULL)
 	return ccErrNoMem; /* XXX */
     if (out_name == NULL)
@@ -1109,7 +1109,7 @@ context_create_ccache(cc_context_t  in_context,
     ret = heim_krb5_cc_initialize(milcontext, id, principal);
     heim_krb5_free_principal(milcontext, principal);
     if (ret) {
-	krb5_cc_destroy((mit_krb5_context)milcontext, (mit_krb5_ccache)id);
+	mit_krb5_cc_destroy((mit_krb5_context)milcontext, (mit_krb5_ccache)id);
 	return LOG_FAILURE(ret, "cc init");
     }
 
@@ -1153,7 +1153,7 @@ context_create_default_ccache(cc_context_t  in_context,
     ret = heim_krb5_cc_initialize(milcontext, id, principal);
     heim_krb5_free_principal(milcontext, principal);
     if (ret) {
-	krb5_cc_destroy((mit_krb5_context)milcontext, (mit_krb5_ccache)id);
+	mit_krb5_cc_destroy((mit_krb5_context)milcontext, (mit_krb5_ccache)id);
 	return LOG_FAILURE(ret, "cc init");
     }
 
@@ -1199,7 +1199,7 @@ context_create_new_ccache(cc_context_t in_context,
     ret = heim_krb5_cc_initialize(milcontext, id, principal);
     heim_krb5_free_principal(milcontext, principal);
     if (ret) {
-	krb5_cc_destroy((mit_krb5_context)milcontext, (mit_krb5_ccache)id);
+	mit_krb5_cc_destroy((mit_krb5_context)milcontext, (mit_krb5_ccache)id);
 	return LOG_FAILURE(ret, "cc init");
     }
 
@@ -1223,7 +1223,7 @@ context_new_ccache_iterator(cc_context_t in_context,
     c = calloc(1, sizeof(*c));
     c->iterator.functions = &ccache_iterator_functions;
 
-    ret = krb5_cccol_cursor_new((mit_krb5_context)milcontext, &c->cursor);
+    ret = mit_krb5_cccol_cursor_new((mit_krb5_context)milcontext, &c->cursor);
     if (ret) {
 	free(c);
 	return ccErrNoMem;

@@ -36,8 +36,8 @@
 #include <errno.h>
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_kt_start_seq_get(mit_krb5_context context, mit_krb5_keytab keytab,
-		      mit_krb5_kt_cursor *cursor)
+mit_krb5_kt_start_seq_get(mit_krb5_context context, mit_krb5_keytab keytab,
+                          mit_krb5_kt_cursor *cursor)
 {
     krb5_error_code ret;
 
@@ -54,8 +54,8 @@ krb5_kt_start_seq_get(mit_krb5_context context, mit_krb5_keytab keytab,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_kt_next_entry(mit_krb5_context context, mit_krb5_keytab keytab,
-		   mit_krb5_keytab_entry *entry, mit_krb5_kt_cursor *cursor)
+mit_krb5_kt_next_entry(mit_krb5_context context, mit_krb5_keytab keytab,
+                       mit_krb5_keytab_entry *entry, mit_krb5_kt_cursor *cursor)
 {
     krb5_error_code ret;
     krb5_keytab_entry e;
@@ -79,13 +79,13 @@ krb5_kt_next_entry(mit_krb5_context context, mit_krb5_keytab keytab,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_free_keytab_entry_contents(mit_krb5_context context,
-				mit_krb5_keytab_entry *entry)
+mit_krb5_free_keytab_entry_contents(mit_krb5_context context,
+                                    mit_krb5_keytab_entry *entry)
 {
     int eric = entry->vno;
     LOG_ENTRY();
 
-    krb5_free_principal(context, entry->principal);
+    mit_krb5_free_principal(context, entry->principal);
     memset(entry->key.contents, 0, entry->key.length);
     free(entry->key.contents);
     memset(entry, 0, sizeof(*entry));
@@ -96,8 +96,8 @@ krb5_free_keytab_entry_contents(mit_krb5_context context,
 
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_kt_end_seq_get(mit_krb5_context context, mit_krb5_keytab keytab,
-		    mit_krb5_kt_cursor *cursor)
+mit_krb5_kt_end_seq_get(mit_krb5_context context, mit_krb5_keytab keytab,
+                        mit_krb5_kt_cursor *cursor)
 {
     krb5_error_code ret;
 
@@ -111,16 +111,16 @@ krb5_kt_end_seq_get(mit_krb5_context context, mit_krb5_keytab keytab,
 }
 
 static int
-krb5_kt_compare(mit_krb5_context context,
-		mit_krb5_keytab_entry *entry,
-		mit_krb5_const_principal principal,
-		mit_krb5_kvno vno,
-		mit_krb5_enctype enctype)
+mit_krb5_kt_compare(mit_krb5_context context,
+                    mit_krb5_keytab_entry *entry,
+                    mit_krb5_const_principal principal,
+                    mit_krb5_kvno vno,
+                    mit_krb5_enctype enctype)
 {
     LOG_ENTRY();
 
     if(principal != NULL &&
-       !krb5_principal_compare(context, entry->principal, principal))
+       !mit_krb5_principal_compare(context, entry->principal, principal))
 	return 0;
     if(vno && vno != entry->vno)
 	return 0;
@@ -130,21 +130,21 @@ krb5_kt_compare(mit_krb5_context context,
 }
 
 static mit_krb5_error_code
-krb5_kt_free_entry(mit_krb5_context context,
-		   mit_krb5_keytab_entry *entry)
+mit_krb5_kt_free_entry(mit_krb5_context context,
+                       mit_krb5_keytab_entry *entry)
 {
     LOG_ENTRY();
 
-    krb5_free_principal (context, entry->principal);
-    krb5_free_keyblock_contents (context, &entry->key);
+    mit_krb5_free_principal (context, entry->principal);
+    mit_krb5_free_keyblock_contents (context, &entry->key);
     memset(entry, 0, sizeof(*entry));
     return 0;
 }
 
 static mit_krb5_error_code
-krb5_kt_copy_entry_contents(mit_krb5_context context,
-			    const mit_krb5_keytab_entry *in,
-			    mit_krb5_keytab_entry *out)
+mit_krb5_kt_copy_entry_contents(mit_krb5_context context,
+                                const mit_krb5_keytab_entry *in,
+                                mit_krb5_keytab_entry *out)
 {
     krb5_error_code ret;
 
@@ -153,27 +153,27 @@ krb5_kt_copy_entry_contents(mit_krb5_context context,
     memset(out, 0, sizeof(*out));
     out->vno = in->vno;
 
-    ret = krb5_copy_principal (context, in->principal, &out->principal);
+    ret = mit_krb5_copy_principal (context, in->principal, &out->principal);
     if (ret)
 	goto fail;
-    ret = krb5_copy_keyblock_contents (context, &in->key, &out->key);
+    ret = mit_krb5_copy_keyblock_contents (context, &in->key, &out->key);
     if (ret)
 	goto fail;
     out->timestamp = in->timestamp;
     return 0;
 fail:
-    krb5_kt_free_entry (context, out);
+    mit_krb5_kt_free_entry (context, out);
     return ret;
 }
 
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_kt_get_entry(mit_krb5_context context,
-		  mit_krb5_keytab id,
-		  mit_krb5_const_principal principal,
-		  mit_krb5_kvno kvno,
-		  mit_krb5_enctype enctype,
-		  mit_krb5_keytab_entry *entry)
+mit_krb5_kt_get_entry(mit_krb5_context context,
+                      mit_krb5_keytab id,
+                      mit_krb5_const_principal principal,
+                      mit_krb5_kvno kvno,
+                      mit_krb5_enctype enctype,
+                      mit_krb5_keytab_entry *entry)
 {
     mit_krb5_keytab_entry tmp;
     mit_krb5_error_code ret;
@@ -183,51 +183,51 @@ krb5_kt_get_entry(mit_krb5_context context,
 
     memset(entry, 0, sizeof(*entry));
 
-    ret = krb5_kt_start_seq_get (context, id, &cursor);
+    ret = mit_krb5_kt_start_seq_get (context, id, &cursor);
     if (ret)
 	return KRB5_KT_NOTFOUND;
 
     entry->vno = 0;
-    while (krb5_kt_next_entry(context, id, &tmp, &cursor) == 0) {
-	if (krb5_kt_compare(context, &tmp, principal, 0, enctype)) {
+    while (mit_krb5_kt_next_entry(context, id, &tmp, &cursor) == 0) {
+	if (mit_krb5_kt_compare(context, &tmp, principal, 0, enctype)) {
 	    /* the file keytab might only store the lower 8 bits of
 	       the kvno, so only compare those bits */
 	    if (kvno == tmp.vno
 		|| (tmp.vno < 256 && kvno % 256 == tmp.vno)) {
-		krb5_kt_copy_entry_contents (context, &tmp, entry);
-		krb5_kt_free_entry (context, &tmp);
-		krb5_kt_end_seq_get(context, id, &cursor);
+		mit_krb5_kt_copy_entry_contents (context, &tmp, entry);
+		mit_krb5_kt_free_entry (context, &tmp);
+		mit_krb5_kt_end_seq_get(context, id, &cursor);
 		return 0;
 	    } else if (kvno == 0 && tmp.vno > entry->vno) {
 		if (entry->vno)
-		    krb5_kt_free_entry (context, entry);
-		krb5_kt_copy_entry_contents (context, &tmp, entry);
+		    mit_krb5_kt_free_entry (context, entry);
+		mit_krb5_kt_copy_entry_contents (context, &tmp, entry);
 	    }
 	}
-	krb5_kt_free_entry(context, &tmp);
+	mit_krb5_kt_free_entry(context, &tmp);
     }
-    krb5_kt_end_seq_get (context, id, &cursor);
+    mit_krb5_kt_end_seq_get (context, id, &cursor);
     if (entry->vno == 0)
 	return KRB5_KT_NOTFOUND;
     return 0;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_kt_get_name(mit_krb5_context context,
-		 mit_krb5_keytab keytab,
-		 char *name,
-		 unsigned int namelen)
+mit_krb5_kt_get_name(mit_krb5_context context,
+                     mit_krb5_keytab keytab,
+                     char *name,
+                     unsigned int namelen)
 {
     return heim_krb5_kt_get_name(HC(context), (krb5_keytab)keytab, name, namelen);
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_kt_read_service_key(mit_krb5_context context,
-			 mit_krb5_pointer keyprocarg,
-			 mit_krb5_principal principal,
-			 mit_krb5_kvno vno,
-			 mit_krb5_enctype enctype,
-			 mit_krb5_keyblock **key)
+mit_krb5_kt_read_service_key(mit_krb5_context context,
+                             mit_krb5_pointer keyprocarg,
+                             mit_krb5_principal principal,
+                             mit_krb5_kvno vno,
+                             mit_krb5_enctype enctype,
+                             mit_krb5_keyblock **key)
 {
     mit_krb5_keytab keytab;
     mit_krb5_keytab_entry entry;
@@ -236,26 +236,26 @@ krb5_kt_read_service_key(mit_krb5_context context,
     LOG_ENTRY();
 
     if (keyprocarg)
-	ret = krb5_kt_resolve (context, keyprocarg, &keytab);
+	ret = heim_krb5_kt_resolve (HC(context), keyprocarg, (krb5_keytab *) &keytab);
     else
-	ret = krb5_kt_default (context, &keytab);
+	ret = heim_krb5_kt_default (HC(context), (krb5_keytab *) &keytab);
 
     if (ret)
 	return ret;
 
-    ret = krb5_kt_get_entry (context, keytab, principal, vno, enctype, &entry);
-    krb5_kt_close (context, keytab);
+    ret = mit_krb5_kt_get_entry (context, keytab, principal, vno, enctype, &entry);
+    heim_krb5_kt_close (HC(context), (krb5_keytab) keytab);
     if (ret)
 	return ret;
-    ret = krb5_copy_keyblock (context, &entry.key, key);
-    krb5_kt_free_entry(context, &entry);
+    ret = mit_krb5_copy_keyblock (context, &entry.key, key);
+    mit_krb5_kt_free_entry(context, &entry);
     return ret;
 }
 
 mit_krb5_error_code KRB5_LIB_FUNCTION
-krb5_kt_remove_entry(mit_krb5_context context,
-		     mit_krb5_keytab id,
-		     mit_krb5_keytab_entry *entry)
+mit_krb5_kt_remove_entry(mit_krb5_context context,
+                         mit_krb5_keytab id,
+                         mit_krb5_keytab_entry *entry)
 {
     struct comb_principal *p = (struct comb_principal *)entry->principal;
     krb5_keytab_entry e;
@@ -272,9 +272,9 @@ krb5_kt_remove_entry(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_kt_add_entry(mit_krb5_context context,
-		  mit_krb5_keytab id,
-		  mit_krb5_keytab_entry *entry)
+mit_krb5_kt_add_entry(mit_krb5_context context,
+                      mit_krb5_keytab id,
+                      mit_krb5_keytab_entry *entry)
 {
     struct comb_principal *p = (struct comb_principal *)entry->principal;
     krb5_keytab_entry e;
@@ -296,7 +296,7 @@ krb5_kt_add_entry(mit_krb5_context context,
 
 
 const char * KRB5_CALLCONV
-krb5_kt_get_type(mit_krb5_context context, mit_krb5_keytab id)
+mit_krb5_kt_get_type(mit_krb5_context context, mit_krb5_keytab id)
 {
     krb5_error_code ret;
     static char name[80];

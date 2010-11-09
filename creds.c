@@ -40,8 +40,8 @@
 
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_decode_ticket(const mit_krb5_data *code, 
-		   mit_krb5_ticket **rep)
+mit_krb5_decode_ticket(const mit_krb5_data *code, 
+                       mit_krb5_ticket **rep)
 {
     krb5_error_code ret;
     Ticket t;
@@ -63,11 +63,11 @@ krb5_decode_ticket(const mit_krb5_data *code,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_credentials(mit_krb5_context context,
-		     mit_krb5_flags flags,
-		     mit_krb5_ccache id,
-		     mit_krb5_creds *mcreds,
-		     mit_krb5_creds **creds)
+mit_krb5_get_credentials(mit_krb5_context context,
+                         mit_krb5_flags flags,
+                         mit_krb5_ccache id,
+                         mit_krb5_creds *mcreds,
+                         mit_krb5_creds **creds)
 {
     krb5_error_code ret;
     krb5_flags options = flags;
@@ -90,9 +90,9 @@ krb5_get_credentials(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_copy_creds(mit_krb5_context context,
-		const mit_krb5_creds *from,
-		mit_krb5_creds **to)
+mit_krb5_copy_creds(mit_krb5_context context,
+                    const mit_krb5_creds *from,
+                    mit_krb5_creds **to)
 {
     mit_krb5_error_code ret;
     mit_krb5_creds *c;
@@ -101,14 +101,14 @@ krb5_copy_creds(mit_krb5_context context,
 
     c->magic = MIT_KV5M_CREDS;
 
-    ret = krb5_copy_principal(context, from->client, &c->client);
+    ret = mit_krb5_copy_principal(context, from->client, &c->client);
     if (ret)
 	abort();
-    ret = krb5_copy_principal(context, from->server, &c->server);
+    ret = mit_krb5_copy_principal(context, from->server, &c->server);
     if (ret)
 	abort();
     
-    ret = krb5_copy_keyblock_contents(context, &from->keyblock,
+    ret = mit_krb5_copy_keyblock_contents(context, &from->keyblock,
 				      &c->keyblock);
     if (ret)
 	abort();

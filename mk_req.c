@@ -56,14 +56,14 @@ mshim_mit_ap_req_flags(mit_krb5_flags ap_req_options)
 
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_mk_req(mit_krb5_context context,
-	    mit_krb5_auth_context *ac,
-	    mit_krb5_flags ap_req_options,
-	    char *service,
-	    char *hostname,
-	    mit_krb5_data *inbuf,
-	    mit_krb5_ccache ccache,
-	    mit_krb5_data *outbuf)
+mit_krb5_mk_req(mit_krb5_context context,
+                mit_krb5_auth_context *ac,
+                mit_krb5_flags ap_req_options,
+                char *service,
+                char *hostname,
+                mit_krb5_data *inbuf,
+                mit_krb5_ccache ccache,
+                mit_krb5_data *outbuf)
 {
     krb5_data idata, *d = NULL;
     krb5_data odata;
@@ -91,13 +91,13 @@ krb5_mk_req(mit_krb5_context context,
 
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_mk_req_extended(mit_krb5_context context,
-		     mit_krb5_auth_context *ac,
-		     mit_krb5_flags ap_req_options,
-		     mit_krb5_data *inbuf,
-		     mit_krb5_creds *cred,
-		     mit_krb5_data *outbuf)
- {
+mit_krb5_mk_req_extended(mit_krb5_context context,
+                         mit_krb5_auth_context *ac,
+                         mit_krb5_flags ap_req_options,
+                         mit_krb5_data *inbuf,
+                         mit_krb5_creds *cred,
+                         mit_krb5_data *outbuf)
+{
     krb5_data idata, *d = NULL;
     krb5_data odata;
     krb5_flags flags = mshim_mit_ap_req_flags(ap_req_options);
@@ -126,19 +126,19 @@ krb5_mk_req_extended(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_sendauth(mit_krb5_context context,
-	      mit_krb5_auth_context *auth_context,
-	      mit_krb5_pointer fd,
-	      char *appl_version,
-	      mit_krb5_principal client,
-	      mit_krb5_principal server,
-	      mit_krb5_flags ap_req_options,
-	      mit_krb5_data *in_data,
-	      mit_krb5_creds *in_creds,
-	      mit_krb5_ccache ccache,
-	      mit_krb5_error **error,
-	      mit_krb5_ap_rep_enc_part **rep_result,
-	      mit_krb5_creds **out_creds)
+mit_krb5_sendauth(mit_krb5_context context,
+                  mit_krb5_auth_context *auth_context,
+                  mit_krb5_pointer fd,
+                  char *appl_version,
+                  mit_krb5_principal client,
+                  mit_krb5_principal server,
+                  mit_krb5_flags ap_req_options,
+                  mit_krb5_data *in_data,
+                  mit_krb5_creds *in_creds,
+                  mit_krb5_ccache ccache,
+                  mit_krb5_error **error,
+                  mit_krb5_ap_rep_enc_part **rep_result,
+                  mit_krb5_creds **out_creds)
 {
     mit_krb5_error_code ret;
     struct comb_principal *c = (struct comb_principal *)client;
@@ -198,11 +198,11 @@ krb5_sendauth(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_mk_priv(mit_krb5_context context,
-	     mit_krb5_auth_context auth_context,
-	     const mit_krb5_data *inbuf,
-	     mit_krb5_data *outbuf,
-	     mit_krb5_replay_data *replay)
+mit_krb5_mk_priv(mit_krb5_context context,
+                 mit_krb5_auth_context auth_context,
+                 const mit_krb5_data *inbuf,
+                 mit_krb5_data *outbuf,
+                 mit_krb5_replay_data *replay)
 {
     krb5_replay_data outdata;
     mit_krb5_error_code ret;
@@ -236,11 +236,11 @@ krb5_mk_priv(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_mk_safe(mit_krb5_context context,
-	     mit_krb5_auth_context auth_context,
-	     const mit_krb5_data *inbuf,
-	     mit_krb5_data *outbuf,
-	     mit_krb5_replay_data *replay)
+mit_krb5_mk_safe(mit_krb5_context context,
+                 mit_krb5_auth_context auth_context,
+                 const mit_krb5_data *inbuf,
+                 mit_krb5_data *outbuf,
+                 mit_krb5_replay_data *replay)
 {
     krb5_replay_data outdata;
     mit_krb5_error_code ret;

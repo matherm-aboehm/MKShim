@@ -38,23 +38,23 @@
 #include <errno.h>
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_default(mit_krb5_context context, mit_krb5_ccache *cache)
+mit_krb5_cc_default(mit_krb5_context context, mit_krb5_ccache *cache)
 {
     LOG_ENTRY();
     return heim_krb5_cc_default(HC(context), (krb5_ccache *)cache);
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_resolve(mit_krb5_context context, const char *str, mit_krb5_ccache *cache)
+mit_krb5_cc_resolve(mit_krb5_context context, const char *str, mit_krb5_ccache *cache)
 {
     LOG_ENTRY();
     return heim_krb5_cc_resolve(HC(context), str, (krb5_ccache *)cache);
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_initialize(mit_krb5_context context,
-		   mit_krb5_ccache cache,
-		   mit_krb5_principal principal)
+mit_krb5_cc_initialize(mit_krb5_context context,
+                       mit_krb5_ccache cache,
+                       mit_krb5_principal principal)
 {
     struct comb_principal *p = (struct comb_principal *)principal;
     LOG_ENTRY();
@@ -62,9 +62,9 @@ krb5_cc_initialize(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_store_cred(mit_krb5_context context,
-		   mit_krb5_ccache cache,
-		   mit_krb5_creds *creds)
+mit_krb5_cc_store_cred(mit_krb5_context context,
+                       mit_krb5_ccache cache,
+                       mit_krb5_creds *creds)
 {
     krb5_error_code ret;
     krb5_creds hcred;
@@ -76,9 +76,9 @@ krb5_cc_store_cred(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_get_principal (mit_krb5_context context,
-		       mit_krb5_ccache cache,
-		       mit_krb5_principal *principal)
+mit_krb5_cc_get_principal (mit_krb5_context context,
+                           mit_krb5_ccache cache,
+                           mit_krb5_principal *principal)
 {
     krb5_principal p;
     krb5_error_code ret;
@@ -91,35 +91,35 @@ krb5_cc_get_principal (mit_krb5_context context,
     *principal = mshim_hprinc2mprinc(HC(context), p);
     heim_krb5_free_principal(HC(context), p);
     if (*principal == NULL) {
-	krb5_set_error_message(context, ENOMEM, "out of memory");
+	heim_krb5_set_error_message(HC(context), ENOMEM, "out of memory");
 	return ENOMEM;
     }
     return 0;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_close(mit_krb5_context context,
-	      mit_krb5_ccache cache)
+mit_krb5_cc_close(mit_krb5_context context,
+                  mit_krb5_ccache cache)
 {
     return heim_krb5_cc_close(HC(context), (krb5_ccache)cache);
 }
 
 const char * KRB5_CALLCONV
-krb5_cc_get_name (mit_krb5_context context, mit_krb5_ccache cache)
+mit_krb5_cc_get_name (mit_krb5_context context, mit_krb5_ccache cache)
 {
     return heim_krb5_cc_get_name(HC(context), (krb5_ccache)cache);
 }
 
 const char * KRB5_CALLCONV
-krb5_cc_get_type (mit_krb5_context context, mit_krb5_ccache cache)
+mit_krb5_cc_get_type (mit_krb5_context context, mit_krb5_ccache cache)
 {
     return heim_krb5_cc_get_type(HC(context), (krb5_ccache)cache);
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_get_config(mit_krb5_context context, mit_krb5_ccache id,
-		   mit_krb5_const_principal principal,
-		   const char *key, mit_krb5_data *data)
+mit_krb5_cc_get_config(mit_krb5_context context, mit_krb5_ccache id,
+                       mit_krb5_const_principal principal,
+                       const char *key, mit_krb5_data *data)
 {
     struct comb_principal *p = (struct comb_principal *)principal;
     krb5_principal hc = NULL;
@@ -138,26 +138,26 @@ krb5_cc_get_config(mit_krb5_context context, mit_krb5_ccache id,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_new_unique(mit_krb5_context context,
-		   const char *type,
-		   const char *hint,
-		   mit_krb5_ccache *id)
+mit_krb5_cc_new_unique(mit_krb5_context context,
+                       const char *type,
+                       const char *hint,
+                       mit_krb5_ccache *id)
 {
     LOG_ENTRY();
     return heim_krb5_cc_new_unique(HC(context), type, hint, (krb5_ccache *)id);
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_gen_new (mit_krb5_context context, mit_krb5_ccache *id)
+mit_krb5_cc_gen_new (mit_krb5_context context, mit_krb5_ccache *id)
 {
     LOG_ENTRY();
     return heim_krb5_cc_new_unique(HC(context), NULL, NULL, (krb5_ccache *)id);
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_cache_match (mit_krb5_context context,
-		     mit_krb5_principal client,
-		     mit_krb5_ccache *id)
+mit_krb5_cc_cache_match (mit_krb5_context context,
+                         mit_krb5_principal client,
+                         mit_krb5_ccache *id)
 {
     struct comb_principal *p = (struct comb_principal *)client;
     return heim_krb5_cc_cache_match(HC(context), p->heim, (krb5_ccache *)id);
@@ -178,11 +178,11 @@ static const struct mshim_map_flags whichfields_flags[] = {
 };
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_retrieve_cred(mit_krb5_context context,
-		      mit_krb5_ccache cache,
-		      mit_krb5_flags flags,
-		      mit_krb5_creds *mcreds,
-		      mit_krb5_creds *creds)
+mit_krb5_cc_retrieve_cred(mit_krb5_context context,
+                          mit_krb5_ccache cache,
+                          mit_krb5_flags flags,
+                          mit_krb5_creds *mcreds,
+                          mit_krb5_creds *creds)
 {
     krb5_error_code ret;
     krb5_creds hcreds, hmcreds;
@@ -208,10 +208,10 @@ krb5_cc_retrieve_cred(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_next_cred(mit_krb5_context context,
-		  mit_krb5_ccache cache,
-		  mit_krb5_cc_cursor *cursor,
-		  mit_krb5_creds *creds)
+mit_krb5_cc_next_cred(mit_krb5_context context,
+                      mit_krb5_ccache cache,
+                      mit_krb5_cc_cursor *cursor,
+                      mit_krb5_creds *creds)
 {
     krb5_error_code ret;
     krb5_creds c;
@@ -227,8 +227,8 @@ krb5_cc_next_cred(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_cc_end_seq_get (mit_krb5_context context, mit_krb5_ccache cache,
-		     mit_krb5_cc_cursor *cursor)
+mit_krb5_cc_end_seq_get (mit_krb5_context context, mit_krb5_ccache cache,
+                         mit_krb5_cc_cursor *cursor)
 {
     LOG_ENTRY();
     if (context == NULL || cache == NULL || cursor == NULL || *cursor == NULL) {

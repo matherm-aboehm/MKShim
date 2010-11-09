@@ -66,7 +66,7 @@ mshim_hprinc2mprinc(krb5_context context, krb5_principal princ)
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_parse_name(mit_krb5_context context, const char *str, mit_krb5_principal *principal)
+mit_krb5_parse_name(mit_krb5_context context, const char *str, mit_krb5_principal *principal)
 {
     struct comb_principal *p;
     krb5_error_code ret;
@@ -85,7 +85,7 @@ krb5_parse_name(mit_krb5_context context, const char *str, mit_krb5_principal *p
 }
 
 mit_krb5_error_code KRB5_CALLCONV_C
-krb5_build_principal_ext(mit_krb5_context context, mit_krb5_principal *principal, unsigned int rlen, const char *realm, ...)
+mit_krb5_build_principal_ext(mit_krb5_context context, mit_krb5_principal *principal, unsigned int rlen, const char *realm, ...)
 {
     struct comb_principal *p;
     krb5_error_code ret;
@@ -107,7 +107,7 @@ krb5_build_principal_ext(mit_krb5_context context, mit_krb5_principal *principal
 }
 
 mit_krb5_error_code KRB5_CALLCONV_C
-krb5_build_principal(mit_krb5_context context, mit_krb5_principal *principal, unsigned int rlen, const char *realm, ...)
+mit_krb5_build_principal(mit_krb5_context context, mit_krb5_principal *principal, unsigned int rlen, const char *realm, ...)
 {
     struct comb_principal *p;
     krb5_error_code ret;
@@ -129,7 +129,7 @@ krb5_build_principal(mit_krb5_context context, mit_krb5_principal *principal, un
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_unparse_name(mit_krb5_context context, mit_krb5_const_principal principal, char **str)
+mit_krb5_unparse_name(mit_krb5_context context, mit_krb5_const_principal principal, char **str)
 {
     struct comb_principal *p = (struct comb_principal *)principal;
     LOG_ENTRY();
@@ -137,16 +137,16 @@ krb5_unparse_name(mit_krb5_context context, mit_krb5_const_principal principal, 
 }
 
 void KRB5_CALLCONV
-krb5_free_unparsed_name(mit_krb5_context context, char *str)
+mit_krb5_free_unparsed_name(mit_krb5_context context, char *str)
 {
     LOG_ENTRY();
     heim_krb5_xfree(str);
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_copy_principal(mit_krb5_context context,
-		    mit_krb5_const_principal from,
-		    mit_krb5_principal *to)
+mit_krb5_copy_principal(mit_krb5_context context,
+                        mit_krb5_const_principal from,
+                        mit_krb5_principal *to)
 {
     struct comb_principal *p = (struct comb_principal *)from;
     LOG_ENTRY();
@@ -155,7 +155,7 @@ krb5_copy_principal(mit_krb5_context context,
 }
 
 void KRB5_CALLCONV
-krb5_free_principal(mit_krb5_context context, mit_krb5_principal principal)
+mit_krb5_free_principal(mit_krb5_context context, mit_krb5_principal principal)
 {
     struct comb_principal *p = (struct comb_principal *)principal;
     LOG_ENTRY();
@@ -167,17 +167,17 @@ krb5_free_principal(mit_krb5_context context, mit_krb5_principal principal)
 }
 
 void KRB5_CALLCONV
-krb5_free_default_realm(mit_krb5_context context, char *str)
+mit_krb5_free_default_realm(mit_krb5_context context, char *str)
 {
     LOG_ENTRY();
     free(str);
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_sname_to_principal(mit_krb5_context context,
-			const char *hostname, const char *service, 
-			mit_krb5_int32 type,
-			mit_krb5_principal *principal)
+mit_krb5_sname_to_principal(mit_krb5_context context,
+                            const char *hostname, const char *service, 
+                            mit_krb5_int32 type,
+                            mit_krb5_principal *principal)
 {
     krb5_error_code ret;
     krb5_principal p;
@@ -196,9 +196,9 @@ krb5_sname_to_principal(mit_krb5_context context,
 }
 
 mit_krb5_boolean KRB5_CALLCONV
-krb5_principal_compare(mit_krb5_context context,
-		       mit_krb5_const_principal p1,
-		       mit_krb5_const_principal p2)
+mit_krb5_principal_compare(mit_krb5_context context,
+                           mit_krb5_const_principal p1,
+                           mit_krb5_const_principal p2)
 {
     struct comb_principal *c1 = (struct comb_principal *)p1;
     struct comb_principal *c2 = (struct comb_principal *)p2;
@@ -207,9 +207,9 @@ krb5_principal_compare(mit_krb5_context context,
 }
 
 mit_krb5_boolean KRB5_CALLCONV
-krb5_realm_compare(mit_krb5_context context,
-		   mit_krb5_const_principal p1,
-		   mit_krb5_const_principal p2)
+mit_krb5_realm_compare(mit_krb5_context context,
+                       mit_krb5_const_principal p1,
+                       mit_krb5_const_principal p2)
 {
     struct comb_principal *c1 = (struct comb_principal *)p1;
     struct comb_principal *c2 = (struct comb_principal *)p2;
@@ -218,11 +218,11 @@ krb5_realm_compare(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_realm_domain(mit_krb5_context, const char *, char **);
+mit_krb5_get_realm_domain(mit_krb5_context, const char *, char **);
 
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_realm_domain(mit_krb5_context context, const char *realm, char **domain)
+mit_krb5_get_realm_domain(mit_krb5_context context, const char *realm, char **domain)
 {
     const char *d;
 

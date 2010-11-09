@@ -37,13 +37,13 @@
 #include <string.h>
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_set_password_using_ccache(mit_krb5_context context,
-			       mit_krb5_ccache ccache,
-			       char *newpw,
-			       mit_krb5_principal change_password_for,
-			       int *result_code,
-			       mit_krb5_data *result_code_string,
-			       mit_krb5_data *result_string)
+mit_krb5_set_password_using_ccache(mit_krb5_context context,
+                                   mit_krb5_ccache ccache,
+                                   char *newpw,
+                                   mit_krb5_principal change_password_for,
+                                   int *result_code,
+                                   mit_krb5_data *result_code_string,
+                                   mit_krb5_data *result_string)
 {
     krb5_error_code ret;
     krb5_principal target = NULL;

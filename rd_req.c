@@ -108,13 +108,13 @@ mshim_hticket2mticket(krb5_context context, krb5_ticket *h, mit_krb5_ticket *m)
 
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_rd_req(mit_krb5_context context,
-	    mit_krb5_auth_context *ac,
-	    const mit_krb5_data *inbuf,
-	    mit_krb5_const_principal server,
-	    mit_krb5_keytab keytab,
-	    mit_krb5_flags *ap_req_options,
-	    mit_krb5_ticket **ticket)
+mit_krb5_rd_req(mit_krb5_context context,
+                mit_krb5_auth_context *ac,
+                const mit_krb5_data *inbuf,
+                mit_krb5_const_principal server,
+                mit_krb5_keytab keytab,
+                mit_krb5_flags *ap_req_options,
+                mit_krb5_ticket **ticket)
 {
     krb5_data idata, *d = NULL;
     struct comb_principal *p = (struct comb_principal *)server;
@@ -147,14 +147,14 @@ krb5_rd_req(mit_krb5_context context,
 
 	
 mit_krb5_error_code KRB5_CALLCONV
-krb5_recvauth(mit_krb5_context context,
-	      mit_krb5_auth_context *ac,
-	      mit_krb5_pointer fd,
-	      char *appl_version,
-	      mit_krb5_principal server,
-	      mit_krb5_int32 flags,
-	      mit_krb5_keytab keytab,
-	      mit_krb5_ticket **ticket)
+mit_krb5_recvauth(mit_krb5_context context,
+                  mit_krb5_auth_context *ac,
+                  mit_krb5_pointer fd,
+                  char *appl_version,
+                  mit_krb5_principal server,
+                  mit_krb5_int32 flags,
+                  mit_krb5_keytab keytab,
+                  mit_krb5_ticket **ticket)
 {
     struct comb_principal *s = (struct comb_principal *)server;
     krb5_ticket *hticket = NULL;
@@ -192,14 +192,14 @@ match_appl_version(const void *ptr, const char *str)
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_recvauth_version(mit_krb5_context context,
-		      mit_krb5_auth_context *ac,
-		      mit_krb5_pointer fd,
-		      mit_krb5_principal server,
-		      mit_krb5_int32 flags, 
-		      mit_krb5_keytab keytab,
-		      mit_krb5_ticket **ticket,
-		      mit_krb5_data *version)
+mit_krb5_recvauth_version(mit_krb5_context context,
+                          mit_krb5_auth_context *ac,
+                          mit_krb5_pointer fd,
+                          mit_krb5_principal server,
+                          mit_krb5_int32 flags, 
+                          mit_krb5_keytab keytab,
+                          mit_krb5_ticket **ticket,
+                          mit_krb5_data *version)
 {
     struct comb_principal *s = (struct comb_principal *)server;
     krb5_ticket *hticket = NULL;
@@ -228,11 +228,11 @@ krb5_recvauth_version(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_rd_priv(mit_krb5_context context,
-	     mit_krb5_auth_context auth_context,
-	     const mit_krb5_data *inbuf,
-	     mit_krb5_data *outbuf,
-	     mit_krb5_replay_data *replay)
+mit_krb5_rd_priv(mit_krb5_context context,
+                 mit_krb5_auth_context auth_context,
+                 const mit_krb5_data *inbuf,
+                 mit_krb5_data *outbuf,
+                 mit_krb5_replay_data *replay)
 {
     krb5_replay_data outdata;
     mit_krb5_error_code ret;
@@ -267,11 +267,11 @@ krb5_rd_priv(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_rd_safe(mit_krb5_context context,
-	     mit_krb5_auth_context auth_context,
-	     const mit_krb5_data *inbuf,
-	     mit_krb5_data *outbuf,
-	     mit_krb5_replay_data *replay)
+mit_krb5_rd_safe(mit_krb5_context context,
+                 mit_krb5_auth_context auth_context,
+                 const mit_krb5_data *inbuf,
+                 mit_krb5_data *outbuf,
+                 mit_krb5_replay_data *replay)
 {
     krb5_replay_data outdata;
     mit_krb5_error_code ret;

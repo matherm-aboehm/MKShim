@@ -41,20 +41,20 @@
 #include <errno.h>
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_auth_con_setaddrs(mit_krb5_context context,
-		       mit_krb5_auth_context ac,
-		       mit_krb5_address *caddr,
-		       mit_krb5_address *saddr)
+mit_krb5_auth_con_setaddrs(mit_krb5_context context,
+                           mit_krb5_auth_context ac,
+                           mit_krb5_address *caddr,
+                           mit_krb5_address *saddr)
 {
     LOG_ENTRY();
     return 0;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_auth_con_getaddrs(mit_krb5_context context,
-		       mit_krb5_auth_context ac,
-		       mit_krb5_address **caddr,
-		       mit_krb5_address **saddr)
+mit_krb5_auth_con_getaddrs(mit_krb5_context context,
+                           mit_krb5_auth_context ac,
+                           mit_krb5_address **caddr,
+                           mit_krb5_address **saddr)
 {
     LOG_ENTRY();
     *caddr = NULL;
@@ -64,37 +64,37 @@ krb5_auth_con_getaddrs(mit_krb5_context context,
 
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_auth_con_setports(mit_krb5_context context,
-		       mit_krb5_auth_context ac,
-		       mit_krb5_address *caddr,
-		       mit_krb5_address *saddr)
+mit_krb5_auth_con_setports(mit_krb5_context context,
+                           mit_krb5_auth_context ac,
+                           mit_krb5_address *caddr,
+                           mit_krb5_address *saddr)
 {
     LOG_ENTRY();
     return 0;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_auth_con_getkey(mit_krb5_context context,
-		     mit_krb5_auth_context ac,
-		     mit_krb5_keyblock **keyblock)
+mit_krb5_auth_con_getkey(mit_krb5_context context,
+                         mit_krb5_auth_context ac,
+                         mit_krb5_keyblock **keyblock)
 {
     LOG_ENTRY();
     return 0;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_auth_con_setrcache(mit_krb5_context context,
-			mit_krb5_auth_context ac,
-			mit_krb5_rcache rcaceh)
+mit_krb5_auth_con_setrcache(mit_krb5_context context,
+                            mit_krb5_auth_context ac,
+                            mit_krb5_rcache rcaceh)
 {
     LOG_ENTRY();
     return 0;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_auth_con_getrcache(mit_krb5_context context,
-			mit_krb5_auth_context ac,
-			mit_krb5_rcache *rcache)
+mit_krb5_auth_con_getrcache(mit_krb5_context context,
+                            mit_krb5_auth_context ac,
+                            mit_krb5_rcache *rcache)
 {
     LOG_ENTRY();
     *rcache = NULL;
@@ -102,9 +102,9 @@ krb5_auth_con_getrcache(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_auth_con_getauthenticator(mit_krb5_context context,
-			       mit_krb5_auth_context ac,
-			       mit_krb5_authenticator **auth)
+mit_krb5_auth_con_getauthenticator(mit_krb5_context context,
+                                   mit_krb5_auth_context ac,
+                                   mit_krb5_authenticator **auth)
 {
     LOG_ENTRY();
     *auth = NULL;
@@ -112,9 +112,9 @@ krb5_auth_con_getauthenticator(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_auth_con_getlocalsubkey(mit_krb5_context context,
-			     mit_krb5_auth_context ac,
-			     mit_krb5_keyblock **key)
+mit_krb5_auth_con_getlocalsubkey(mit_krb5_context context,
+                                 mit_krb5_auth_context ac,
+                                 mit_krb5_keyblock **key)
 {
     krb5_keyblock *hkey = NULL;
     krb5_error_code ret;
@@ -137,9 +137,9 @@ krb5_auth_con_getlocalsubkey(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_auth_con_getremotesubkey(mit_krb5_context context,
-			      mit_krb5_auth_context ac,
-			      mit_krb5_keyblock **key)
+mit_krb5_auth_con_getremotesubkey(mit_krb5_context context,
+                                  mit_krb5_auth_context ac,
+                                  mit_krb5_keyblock **key)
 {
     krb5_keyblock *hkey = NULL;
     krb5_error_code ret;

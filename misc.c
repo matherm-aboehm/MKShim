@@ -113,9 +113,9 @@ mshim_hkeyblock2mkeyblock(const krb5_keyblock *h, mit_krb5_keyblock *m)
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_copy_keyblock_contents(mit_krb5_context context,
-			    const mit_krb5_keyblock *from,
-			    mit_krb5_keyblock *to)
+mit_krb5_copy_keyblock_contents(mit_krb5_context context,
+                                const mit_krb5_keyblock *from,
+                                mit_krb5_keyblock *to)
 {
     LOG_ENTRY();
     to->magic = MIT_KV5M_KEYBLOCK;
@@ -127,13 +127,13 @@ krb5_copy_keyblock_contents(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_copy_keyblock(mit_krb5_context context,
-		   const mit_krb5_keyblock *from,
-		   mit_krb5_keyblock **to)
+mit_krb5_copy_keyblock(mit_krb5_context context,
+                       const mit_krb5_keyblock *from,
+                       mit_krb5_keyblock **to)
 {
     LOG_ENTRY();
     *to = mshim_malloc(sizeof(**to));
-    return krb5_copy_keyblock_contents(context, from, *to);
+    return mit_krb5_copy_keyblock_contents(context, from, *to);
 }
 
 
@@ -270,23 +270,23 @@ mshim_hreplay2mreplay(const krb5_replay_data *h, mit_krb5_replay_data *m)
 
 
 void KRB5_CALLCONV
-krb5_free_ap_rep_enc_part(mit_krb5_context context,
-			  mit_krb5_ap_rep_enc_part *enc_part)
+mit_krb5_free_ap_rep_enc_part(mit_krb5_context context,
+                              mit_krb5_ap_rep_enc_part *enc_part)
 {
     LOG_ENTRY();
     if (enc_part->subkey)
-	krb5_free_keyblock(context, enc_part->subkey);
+	mit_krb5_free_keyblock(context, enc_part->subkey);
     free(enc_part);
 }
 
 void KRB5_CALLCONV
-krb5_free_error(mit_krb5_context context, mit_krb5_error *error)
+mit_krb5_free_error(mit_krb5_context context, mit_krb5_error *error)
 {
     LOG_ENTRY();
-    krb5_free_principal(context, error->client);
-    krb5_free_principal(context, error->server);
-    krb5_free_data_contents(context, &error->text);
-    krb5_free_data_contents(context, &error->e_data);
+    mit_krb5_free_principal(context, error->client);
+    mit_krb5_free_principal(context, error->server);
+    mit_krb5_free_data_contents(context, &error->text);
+    mit_krb5_free_data_contents(context, &error->e_data);
     free(error);
 }
 
@@ -336,21 +336,21 @@ mshim_remap_flags(unsigned long in, const struct mshim_map_flags *table)
 
 
 mit_krb5_error_code
-krb5_init_context(mit_krb5_context *context)
+mit_krb5_init_context(mit_krb5_context *context)
 {
     LOG_ENTRY();
     return heim_krb5_init_context((krb5_context *)context);
 }
 
 mit_krb5_error_code
-krb5_init_secure_context(mit_krb5_context *context)
+mit_krb5_init_secure_context(mit_krb5_context *context)
 {
     LOG_ENTRY();
     return heim_krb5_init_context((krb5_context *)context);
 }
 
 void
-krb5_free_context(mit_krb5_context context)
+mit_krb5_free_context(mit_krb5_context context)
 {
     LOG_ENTRY();
     heim_krb5_free_context(HC(context));
@@ -402,15 +402,15 @@ error_message(errcode_t code)
 }
 
 void KRB5_CALLCONV
-krb5_free_keyblock(mit_krb5_context context, mit_krb5_keyblock *keyblock)
+mit_krb5_free_keyblock(mit_krb5_context context, mit_krb5_keyblock *keyblock)
 {
     LOG_ENTRY();
-    krb5_free_keyblock_contents(context, keyblock);
+    mit_krb5_free_keyblock_contents(context, keyblock);
     free(keyblock);
 }
 
 void KRB5_CALLCONV
-krb5_free_keyblock_contents(mit_krb5_context context, mit_krb5_keyblock *keyblock)
+mit_krb5_free_keyblock_contents(mit_krb5_context context, mit_krb5_keyblock *keyblock)
 {
     LOG_ENTRY();
     memset(keyblock->contents, 0, keyblock->length);
@@ -419,15 +419,15 @@ krb5_free_keyblock_contents(mit_krb5_context context, mit_krb5_keyblock *keybloc
 }
 
 void KRB5_CALLCONV
-krb5_free_data(mit_krb5_context context, mit_krb5_data *data)
+mit_krb5_free_data(mit_krb5_context context, mit_krb5_data *data)
 {
     LOG_ENTRY();
-    krb5_free_data_contents(context, data);
+    mit_krb5_free_data_contents(context, data);
     free(data);
 }
 
 void KRB5_CALLCONV
-krb5_free_data_contents(mit_krb5_context context, mit_krb5_data *data)
+mit_krb5_free_data_contents(mit_krb5_context context, mit_krb5_data *data)
 {
     LOG_ENTRY();
     free(data->data);
@@ -435,9 +435,9 @@ krb5_free_data_contents(mit_krb5_context context, mit_krb5_data *data)
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_copy_data(mit_krb5_context context,
-		const mit_krb5_data *from,
-		mit_krb5_data **to)
+mit_krb5_copy_data(mit_krb5_context context,
+                   const mit_krb5_data *from,
+                   mit_krb5_data **to)
 {
     *to = mshim_malloc(sizeof(**to));
     (*to)->magic = MIT_KV5M_DATA;
@@ -448,61 +448,61 @@ krb5_copy_data(mit_krb5_context context,
 }
 
 void KRB5_CALLCONV
-krb5_free_cred_contents(mit_krb5_context context, mit_krb5_creds *cred)
+mit_krb5_free_cred_contents(mit_krb5_context context, mit_krb5_creds *cred)
 {
     LOG_ENTRY();
     if (cred == NULL)
 	return;
-    krb5_free_principal(context, cred->client);
-    krb5_free_principal(context, cred->server);
-    krb5_free_keyblock_contents(context, &cred->keyblock);
-    krb5_free_data_contents(context, &cred->ticket);
-    krb5_free_data_contents(context, &cred->second_ticket);
+    mit_krb5_free_principal(context, cred->client);
+    mit_krb5_free_principal(context, cred->server);
+    mit_krb5_free_keyblock_contents(context, &cred->keyblock);
+    mit_krb5_free_data_contents(context, &cred->ticket);
+    mit_krb5_free_data_contents(context, &cred->second_ticket);
     /*
-    mit_krb5_address **addresses;
-    mit_krb5_authdata **authdata;
+      mit_krb5_address **addresses;
+      mit_krb5_authdata **authdata;
     */
     memset(cred, 0, sizeof(*cred));
 }
 
 void KRB5_CALLCONV
-krb5_free_creds(mit_krb5_context context, mit_krb5_creds *cred)
+mit_krb5_free_creds(mit_krb5_context context, mit_krb5_creds *cred)
 {
     LOG_ENTRY();
-    krb5_free_cred_contents(context, cred);
+    mit_krb5_free_cred_contents(context, cred);
     free(cred);
 }
 
 void KRB5_CALLCONV
-krb5_free_enc_tkt_part(mit_krb5_context context, krb5_enc_tkt_part *enc_part2)
+mit_krb5_free_enc_tkt_part(mit_krb5_context context, krb5_enc_tkt_part *enc_part2)
 {
     if (enc_part2->session)
-	krb5_free_keyblock(context, enc_part2->session);
+	mit_krb5_free_keyblock(context, enc_part2->session);
     if (enc_part2->client)
-	krb5_free_principal(context, enc_part2->client);
+	mit_krb5_free_principal(context, enc_part2->client);
     free(enc_part2);
     memset(enc_part2, 0, sizeof(*enc_part2));
 }
 
 void KRB5_CALLCONV
-krb5_free_ticket(mit_krb5_context context, mit_krb5_ticket *ticket)
+mit_krb5_free_ticket(mit_krb5_context context, mit_krb5_ticket *ticket)
 {
     LOG_ENTRY();
     if (ticket == NULL)
 	return;
     if (ticket->server)
-	krb5_free_principal(context, ticket->server);
+	mit_krb5_free_principal(context, ticket->server);
     if (ticket->enc_part.ciphertext.data)
-	krb5_free_data_contents(context, &ticket->enc_part.ciphertext);
+	mit_krb5_free_data_contents(context, &ticket->enc_part.ciphertext);
     if (ticket->enc_part2)
-	krb5_free_enc_tkt_part(context, ticket->enc_part2);
+	mit_krb5_free_enc_tkt_part(context, ticket->enc_part2);
     memset(ticket, 0, sizeof(*ticket));
     free(ticket);
 }
 
 void KRB5_CALLCONV
-krb5_free_authdata(mit_krb5_context context,
-		   mit_krb5_authdata **val)
+mit_krb5_free_authdata(mit_krb5_context context,
+                       mit_krb5_authdata **val)
 {
     mit_krb5_authdata **ptr;
 
@@ -514,9 +514,9 @@ krb5_free_authdata(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_us_timeofday(mit_krb5_context context,
-		  mit_krb5_timestamp *outsec,
-		  mit_krb5_int32 *outusec)
+mit_krb5_us_timeofday(mit_krb5_context context,
+                      mit_krb5_timestamp *outsec,
+                      mit_krb5_int32 *outusec)
 {
     krb5_timestamp sec;
     int32_t usec;
@@ -528,8 +528,8 @@ krb5_us_timeofday(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_timeofday(mit_krb5_context context,
-	       mit_krb5_timestamp *out)
+mit_krb5_timeofday(mit_krb5_context context,
+                   mit_krb5_timestamp *out)
 {
     krb5_timestamp ts;
     LOG_ENTRY();
@@ -539,7 +539,7 @@ krb5_timeofday(mit_krb5_context context,
 }
 
 char *
-krb5_pkinit_cert_hash_str(const mit_krb5_data *cert)
+mit_krb5_pkinit_cert_hash_str(const mit_krb5_data *cert)
 {
 #ifdef HAVE_COMMONCRYPTO_COMMONDIGEST_H
 
@@ -639,9 +639,9 @@ done:
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_enctype_to_string(mit_krb5_enctype enctype,
-		       char *str, 
-		       size_t size)
+mit_krb5_enctype_to_string(mit_krb5_enctype enctype,
+                           char *str, 
+                           size_t size)
 {
 #ifdef HAVE_STRSAFE
     StringCchPrintfA(str, size, "enctype-%d", enctype);
@@ -652,7 +652,7 @@ krb5_enctype_to_string(mit_krb5_enctype enctype,
 }
 
 void KRB5_CALLCONV
-krb5_free_addresses(mit_krb5_context context, mit_krb5_address **addrs)
+mit_krb5_free_addresses(mit_krb5_context context, mit_krb5_address **addrs)
 {
     unsigned int i;
     for (i = 0; addrs && addrs[i] ; i++) {
@@ -664,16 +664,16 @@ krb5_free_addresses(mit_krb5_context context, mit_krb5_address **addrs)
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_server_rcache(mit_krb5_context context,
-		       const mit_krb5_data *foo,
-		       mit_krb5_rcache *rcache)
+mit_krb5_get_server_rcache(mit_krb5_context context,
+                           const mit_krb5_data *foo,
+                           mit_krb5_rcache *rcache)
 {
     *rcache = NULL;
     return 0;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_os_localaddr(mit_krb5_context context, mit_krb5_address ***addresses)
+mit_krb5_os_localaddr(mit_krb5_context context, mit_krb5_address ***addresses)
 {
     mit_krb5_address **a;
     krb5_addresses addrs;
@@ -703,7 +703,7 @@ krb5_os_localaddr(mit_krb5_context context, mit_krb5_address ***addresses)
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_string_to_deltat(char *str, mit_krb5_deltat *t)
+mit_krb5_string_to_deltat(char *str, mit_krb5_deltat *t)
 {
     krb5_error_code ret;
     krb5_deltat ht;
@@ -716,22 +716,22 @@ krb5_string_to_deltat(char *str, mit_krb5_deltat *t)
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_prompter_posix(mit_krb5_context context,
-		    void *data,
-		    const char *name,
-		    const char *banner,
-		    int num_prompts,
-		    mit_krb5_prompt prompts[])
+mit_krb5_prompter_posix(mit_krb5_context context,
+                        void *data,
+                        const char *name,
+                        const char *banner,
+                        int num_prompts,
+                        mit_krb5_prompt prompts[])
 {
     return EINVAL;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_validated_creds(mit_krb5_context context,
-			 mit_krb5_creds *creds,
-			 mit_krb5_principal client,
-			 mit_krb5_ccache ccache,
-			 char *in_tkt_service)
+mit_krb5_get_validated_creds(mit_krb5_context context,
+                             mit_krb5_creds *creds,
+                             mit_krb5_principal client,
+                             mit_krb5_ccache ccache,
+                             char *in_tkt_service)
 {
     struct comb_principal *p = (struct comb_principal *)client;
     krb5_error_code ret;
@@ -739,17 +739,18 @@ krb5_get_validated_creds(mit_krb5_context context,
 
     mshim_mcred2hcred(HC(context), creds, &hcreds);
 
-    ret = heim_krb5_get_validated_creds(HC(context), &hcreds, p->heim, (krb5_ccache)ccache, in_tkt_service);
+    ret = heim_krb5_get_validated_creds(HC(context), &hcreds, p->heim,
+                                        (krb5_ccache)ccache, in_tkt_service);
     heim_krb5_free_cred_contents(HC(context), &hcreds);
     return ret;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_get_renewed_creds (mit_krb5_context context,
-			mit_krb5_creds *creds,
-			mit_krb5_principal client,
-			mit_krb5_ccache ccache,
-			char *in_tkt_service)
+mit_krb5_get_renewed_creds (mit_krb5_context context,
+                            mit_krb5_creds *creds,
+                            mit_krb5_principal client,
+                            mit_krb5_ccache ccache,
+                            char *in_tkt_service)
 {
     struct comb_principal *p = (struct comb_principal *)client;
     krb5_error_code ret;
@@ -763,9 +764,9 @@ krb5_get_renewed_creds (mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-krb5_set_real_time(mit_krb5_context context,
-		   mit_krb5_timestamp ts,
-		   mit_krb5_int32 usec)
+mit_krb5_set_real_time(mit_krb5_context context,
+                       mit_krb5_timestamp ts,
+                       mit_krb5_int32 usec)
 {
     LOG_ENTRY();
     return heim_krb5_set_real_time(HC(context), ts, usec);
