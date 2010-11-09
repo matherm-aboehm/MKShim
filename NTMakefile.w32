@@ -110,6 +110,7 @@ RC=rc
 #PYTHON=python.exe
 #PERL=perl.exe
 SIGNTOOL=signtool.exe
+SED=sed.exe
 
 CANDLE_CMD=candle.exe
 LIGHT_CMD=light.exe
@@ -204,7 +205,7 @@ RC2RES = $(RC2RES_C) -fo $@ $**
 !ifndef RECURSE
 
 check-utils:
-	@for %%g in ( "$(SIGNTOOL)" "$(CANDLE_CMD)" "$(LIGHT_CMD)") do @( \
+	@for %%g in ( "$(SIGNTOOL)" "$(CANDLE_CMD)" "$(LIGHT_CMD)" "$(SED)") do @( \
 	for /f %%f in ( "%%g" ) do @( \
 		if exist %%f @( \
 			echo Found %%f \
@@ -257,27 +258,6 @@ $<
 	$(C2OBJ_C) /Fd$(OBJ)\ /Fo$(OBJ)\ /MP @<<
 $<
 <<
-
-{}.hin{$(INCDIR)}.h:
-	$(CP) $< $@
-
-{}.h{$(INCDIR)}.h:
-	$(CP) $< $@
-
-{}.h{$(INCDIR)\krb5}.h:
-	$(CP) $< $@
-
-{$(OBJ)}.h{$(INCDIR)}.h:
-	$(CP) $< $@
-
-{$(OBJ)}.x{$(OBJ)}.c:
-	$(CP) $< $@
-
-{$(OBJ)}.hx{$(INCDIR)}.h:
-	$(CP) $< $@
-
-{$(OBJ)}.hx{$(OBJ)}.h:
-	$(CP) $< $@
 
 {}.rc{$(OBJ)}.res:
 	$(RC2RES)
@@ -446,3 +426,10 @@ DLLPREP_NODIST=\
 DLLPREP_MERGE=\
 ( ( $(_MERGE_MANIFEST_DLL) || $(_INSERT_APPMANIFEST_DLL) ) && $(_CODESIGN) ) || ( $(RM) $@ && exit /b 1 )
 
+#----------------------------------------------------------------------
+# Libraries
+
+LIBHEIMDAL=$(HEIMSDK)\lib\$(CPU)\heimdal.lib
+LIBROKEN=$(HEIMSDK)\lib\$(CPU)\libroken.lib
+LIBCOMERR=$(HEIMSDK)\lib\$(CPU)\libcom_err.lib
+LIBGSSAPI=$(HEIMSDK)\lib\$(CPU)\libgssapi.lib
