@@ -49,11 +49,6 @@
 
 #endif
 
-#include <Heimdal/gkrb5_err.h>
-#include <Heimdal/wind_err.h>
-#include <Heimdal/krb_err.h>
-#include <Heimdal/hx509_err.h>
-
 #ifdef HAVE_STRSAFE
 #include <strsafe.h>
 #endif
@@ -356,50 +351,6 @@ mit_krb5_free_context(mit_krb5_context context)
     heim_krb5_free_context(HC(context));
 }
 
-
-static void
-init_error_tables(void * context)
-{
-    struct et_list ** et_list = (struct et_list **) context;
-
-    initialize_asn1_error_table_r(et_list);
-    initialize_gk5_error_table_r(et_list);
-    initialize_wind_error_table_r(et_list);
-    initialize_krb5_error_table_r(et_list);
-    initialize_krb_error_table_r(et_list);
-    initialize_k524_error_table_r(et_list);
-    initialize_heim_error_table_r(et_list);
-    initialize_hx_error_table_r(et_list);
-}
-
-static void
-mshim_init_error_tables(struct et_list **et_list)
-{
-    static dispatch_once_t once;
-
-    dispatch_once_f(&once, (void *) et_list, init_error_tables);
-}
-
-const char *
-error_message(errcode_t code)
-{
-    static struct et_list *et_list = NULL;
-    static char buffer[1024];
-    const char *str;
-
-    mshim_init_error_tables(&et_list);
-
-    str = heim_com_right_r(et_list, code, buffer, sizeof(buffer));
-    if (str == NULL) {
-#ifdef HAVE_STRSAFE
-        StringCbPrintfA(buffer, sizeof(buffer), "Unknown error %d", (int)code);
-#else
-	snprintf(buffer, sizeof(buffer), "Unknown error %d", (int)code);
-#endif
-	str = buffer;
-    }
-    return str;
-}
 
 void KRB5_CALLCONV
 mit_krb5_free_keyblock(mit_krb5_context context, mit_krb5_keyblock *keyblock)
