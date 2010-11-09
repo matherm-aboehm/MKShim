@@ -1,24 +1,17 @@
 
 !include "NTMakefile.w32"
 
+!if "$(CPU)"=="i386"
+KRB5DLL=$(BINDIR)\krb5_32.dll
+COMERRDLL=$(BINDIR)\comerr32.dll
+!else
+KRB5DLL=$(BINDIR)\krb5_64.dll
+COMERRDLL=$(BINDIR)\comerr64.dll
+!endif
 
-SHIMOBJS=\
-	$(OBJ)\auth_context.obj	\
-	$(OBJ)\cache.obj	\
-	$(OBJ)\ccache.obj	\
-	$(OBJ)\creds.obj	\
-	$(OBJ)\crypto.obj	\
-	$(OBJ)\gic.obj		\
-	$(OBJ)\gss-glue.obj	\
-	$(OBJ)\gss-symbols.obj	\
-	$(OBJ)\keytab.obj	\
-	$(OBJ)\log.obj		\
-	$(OBJ)\misc.obj		\
-	$(OBJ)\misc-mit.obj	\
-	$(OBJ)\mk_req.obj	\
-	$(OBJ)\password.obj	\
-	$(OBJ)\principal.obj	\
-	$(OBJ)\rd_req.obj	\
+
+rename-heim.h: $(HEIMSDK)\inc\heimdal\krb5-protos.h $(HEIMSDK)\inc\com_err.h $(HEIMSDK)\inc\com_right.h $(HEIMSDK)\inc\gssapi\gssapi.h
+	( $(SED) -n -e "s|^\([a-zA-Z0-9_]\{3,\}\)\s*(.*|#define\theim_\1\t\1|p" $** > $@ ) || $(RM) $@
 
 KRB5OBJS=\
 	$(OBJ)\auth_context.obj	\
@@ -34,8 +27,18 @@ KRB5OBJS=\
 	$(OBJ)\password.obj	\
 	$(OBJ)\principal.obj	\
 	$(OBJ)\rd_req.obj	\
+	$(OBJ)\dummy-krb5.obj	\
 
-$(OBJ)\krb5.dll: $(KRB5OBJS)
-	$(DLLGUILINK)
+COMERROBJS=\
+	$(OBJ)\com_err.obj		\
+	$(OBJ)\dummy-comerr.obj		\
+	$(OBJ)\log.obj			\
+	$(OBJ)\dispatch_once.obj 	\
 
-all:: $(SHIMOBJS) $(OBJ)\krb5.dll
+$(KRB5DLL): $(KRB5OBJS) $(LIBHEIMDAL) $(LIBROKEN)
+	$(DLLGUILINK) /def:krb5_32.def
+
+$(COMERRDLL): $(COMERROBJS) $(LIBHEIMDAL) $(LIBGSSAPI) $(LIBCOMERR)
+	$(DLLGUILINK) /def:comerr32.def
+
+all:: $(KRB5DLL) $(COMERRDLL)
