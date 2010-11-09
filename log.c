@@ -39,6 +39,8 @@ static int do_log = 0;
 
 #ifdef __APPLE__
 
+#include <asl.h>
+
 #include <dispatch/dispatch.h>
 
 #include <CommonCrypto/CommonDigest.h>
@@ -81,12 +83,28 @@ mshim_failure(const char *func, int error, const char *subsystem)
     return error;
 }
 
-#elseif defined(_WIN32)
+void
+mshim_log_function_missing(const char *func)
+{
+    aslmsg m = asl_new(ASL_TYPE_MSG);
+    asl_set(m, "com.apple.message.domain", "com.apple.kerberos.mshim.missing-function" );
+    asl_set(m, "com.apple.message.signature", func);
+    asl_set(m, "com.apple.message.signature2", getprogname());
+    asl_log(NULL, m, ASL_LEVEL_NOTICE,
+	    "function %s not implemented, but used by %s", func, getprogname());
+    asl_free(m);
+
+    syslog(LOG_ERR, "MITKerberosShim: function %s not implemented", func);
+}
+
+#endif
+
+#ifdef _WIN32
 
 void
 mshim_log_entry(const char *msg, ...)
 {
-
+    
 }
 
 int
@@ -107,7 +125,7 @@ mshim_log_lasterror(const char * func, const char * msg)
     len = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM |
                         FORMAT_MESSAGE_ALLOCATE_BUFFER |
                         FORMAT_MESSAGE_IGNORE_INSERTS,
-                        NULL, lastError, 0, &errstr,
+                        NULL, lastError, 0, (LPSTR) &errstr,
                         0, NULL);
     if (len == 0)
         return;
@@ -116,6 +134,12 @@ mshim_log_lasterror(const char * func, const char * msg)
 
     if (errstr)
         LocalFree(errstr);
+}
+
+void
+mshim_log_function_missing(const char *func)
+{
+    mshim_log_entry("MITKerberosShim: function %s not implemented", func);
 }
 
 #endif
