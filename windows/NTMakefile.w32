@@ -47,13 +47,13 @@ BUILD=rel
 BUILD=dbg
 !endif
 
-!if exist($(MAKEDIR)\NTMakefile.w32)
+!if exist($(MAKEDIR)\windows\NTMakefile.w32)
 SRC=$(MAKEDIR)
-!elseif exist($(MAKEDIR)\..\NTMakefile.w32)
+!elseif exist($(MAKEDIR)\..\windows\NTMakefile.w32)
 SRC=$(MAKEDIR)\..
-!elseif exist($(MAKEDIR)\..\..\NTMakefile.w32)
+!elseif exist($(MAKEDIR)\..\..\windows\NTMakefile.w32)
 SRC=$(MAKEDIR)\..\..
-!elseif exist($(MAKEDIR)\..\..\..\NTMakefile.w32)
+!elseif exist($(MAKEDIR)\..\..\..\windows\NTMakefile.w32)
 SRC=$(MAKEDIR)\..\..\..
 !else
 !  error Cant determine source directory
