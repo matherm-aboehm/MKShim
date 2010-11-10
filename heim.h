@@ -91,8 +91,8 @@ extern krb5_context milcontext;
 
 #ifdef __APPLE__
 
-#define HAVE_DISPATCH_ONCE
-#define HAVE_COMMONCRYPTO_COMMONDIGEST_H
+#define HAVE_DISPATCH_ONCE 1
+#define HAVE_COMMONCRYPTO_COMMONDIGEST_H 1
 
 #endif
 
