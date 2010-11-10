@@ -13,7 +13,6 @@ GSSAPIDLL=$(BINDIR)\gssapi64.dll
 PROFILEDLL=$(BINDIR)\xpprof64.dll
 !endif
 
-
 rename-heim.h: $(HEIMSDK)\inc\heimdal\krb5-protos.h $(HEIMSDK)\inc\com_err.h $(HEIMSDK)\inc\com_right.h
 	( $(SED) -n -e "s|^\([a-zA-Z0-9_]\{3,\}\)\s*(.*|#define\theim_\1\t\1|p" $** > $@ ) || $(RM) $@
 
@@ -32,18 +31,21 @@ KRB5OBJS=\
 	$(OBJ)\principal.obj	\
 	$(OBJ)\rd_req.obj	\
 	$(OBJ)\dummy-krb5.obj	\
+	$(OBJ)\krb5.res		\
 
 COMERROBJS=\
 	$(OBJ)\com_err.obj		\
 	$(OBJ)\dummy-comerr.obj		\
 	$(OBJ)\log.obj			\
 	$(OBJ)\dispatch_once.obj 	\
+	$(OBJ)\comerr.res		\
 
 GSSAPIOBJS=\
 	$(OBJ)\gss-glue.obj	\
 	$(OBJ)\gss-symbols.obj	\
 	$(OBJ)\dummy-gss.obj	\
 	$(OBJ)\log.obj		\
+	$(OBJ)\gssapi.res	\
 
 PROFILEOBJS=\
 	$(OBJ)\prof_err.obj	\
@@ -53,6 +55,7 @@ PROFILEOBJS=\
 	$(OBJ)\prof_parse.obj	\
 	$(OBJ)\prof_set.obj	\
 	$(OBJ)\prof_tree.obj	\
+	$(OBJ)\xpprof.res	\
 
 $(KRB5DLL): $(KRB5OBJS) $(LIBHEIMDAL) $(LIBROKEN)
 	$(DLLGUILINK) /def:windows\krb5_32.def
@@ -74,7 +77,7 @@ $(PROFILEDLL): $(PROFILEOBJS) $(LIBCOMERR) $(LIBROKEN)
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
 
-all:: $(KRB5DLL) $(COMERRDLL) $(GSSAPIDLL) $(PROFILEDLL)
+all:: $(OBJ)\version.h $(KRB5DLL) $(COMERRDLL) $(GSSAPIDLL) $(PROFILEDLL)
 
 clean::
 	-$(RM) $(KRB5DLL)
@@ -85,4 +88,17 @@ clean::
 {profile}.c{$(OBJ)}.obj::
 	$(C2OBJ_C) /Fd$(OBJ)\ /Fo$(OBJ)\ @<<
 $<
+$(OBJ)\version.h: windows\NTMakefile.config
+	$(CP) << $@
+#define PACKAGE "$(VER_PACKAGE)"
+#define PACKAGE_BUGREPORT "$(VER_PACKAGE_BUGREPORT)"
+#define PACKAGE_NAME "$(VER_PACKAGE_NAME)"
+#define PACKAGE_STRING "$(VER_PACKAGE_NAME) $(VER_PACKAGE_VERSION)"
+#define PACKAGE_VERSION "$(VER_PACKAGE_VERSION)"
+#define PACKAGE_COMPANY "$(VER_PACKAGE_COMPANY)"
+#define PACKAGE_COPYRIGHT "$(VER_PACKAGE_COPYRIGHT)"
+#define RC_PRODVER_MAJOR $(VER_PRODUCT_MAJOR)
+#define RC_PRODVER_MINOR $(VER_PRODUCT_MINOR)
+#define RC_PRODVER_AUX   $(VER_PRODUCT_AUX)
+#define RC_PRODVER_PATCH $(VER_PRODUCT_PATCH)
 <<

@@ -122,7 +122,7 @@ LIGHT=$(LIGHT_CMD) -nologo
 #----------------------------------------------------------------
 # Build options
 
-cincdirs=$(cincdirs) -I$(HEIMSDK)\inc -I$(HEIMSDK)\inc\heimdal -I$(SRC)\include -I$(SRC)
+cincdirs=$(cincdirs) -I$(HEIMSDK)\inc -I$(HEIMSDK)\inc\heimdal -I$(SRC)\include -I$(SRC) -I$(OBJ)
 cdefines=$(cdefines) -DHAVE_CONFIG_H
 cdebug=$(cdebug) /Zi
 ldebug=$(ldebug) /DEBUG
@@ -259,7 +259,7 @@ $<
 $<
 <<
 
-{}.rc{$(OBJ)}.res:
+{windows}.rc{$(OBJ)}.res:
 	$(RC2RES)
 
 #----------------------------------------------------------------------
