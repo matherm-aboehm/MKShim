@@ -262,6 +262,11 @@ $<
 {windows}.rc{$(OBJ)}.res:
 	$(RC2RES)
 
+{profile}.c{$(OBJ)}.obj::
+	$(C2OBJ_C) /Fd$(OBJ)\ /Fo$(OBJ)\ @<<
+$<
+<<
+
 #----------------------------------------------------------------------
 # Announce the build directory
 

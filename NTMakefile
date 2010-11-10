@@ -85,9 +85,6 @@ clean::
 	-$(RM) $(GSSAPIDLL)
 	-$(RM) $(PROFILEDLL)
 
-{profile}.c{$(OBJ)}.obj::
-	$(C2OBJ_C) /Fd$(OBJ)\ /Fo$(OBJ)\ @<<
-$<
 $(OBJ)\version.h: windows\NTMakefile.config
 	$(CP) << $@
 #define PACKAGE "$(VER_PACKAGE)"
