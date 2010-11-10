@@ -41,7 +41,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-OM_uint32
+GSSAPI_LIB_FUNCTION OM_uint32 GSSAPI_LIB_CALL
 heim_gsskrb5_extract_authz_data_from_sec_context(OM_uint32 * /*minor_status*/,
 						 gss_ctx_id_t /*context_handle*/,
 						 int /*ad_type*/,
@@ -110,10 +110,10 @@ apple_gss_krb5_free_authdata_if_relevant(uint32_t *minor_status,
 }
 
 
-int
+GSSAPI_LIB_FUNCTION int GSSAPI_LIB_CALL
 gss_oid_equal(const gss_OID a, const gss_OID b);
 
-OM_uint32
+GSSAPI_LIB_FUNCTION OM_uint32 GSSAPI_LIB_CALL
 heim_gss_import_name(OM_uint32 * /*minor_status*/,
 		     const gss_buffer_t /*input_name_buffer*/,
 		     const gss_OID /*input_name_type*/,
@@ -122,10 +122,10 @@ heim_gss_import_name(OM_uint32 * /*minor_status*/,
 
 
 OM_uint32
-gss_import_name(OM_uint32 *minor_status,
-		gss_buffer_t input_name_buffer,
-		gss_OID name_type,
-		gss_name_t *name)
+mit_gss_import_name(OM_uint32 *minor_status,
+                    gss_buffer_t input_name_buffer,
+                    gss_OID name_type,
+                    gss_name_t *name)
 {
     LOG_ENTRY();
 

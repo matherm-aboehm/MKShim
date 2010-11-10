@@ -41,16 +41,22 @@
 #define KRB5_LIB_VARIABLE
 #define KRB5_LIB_FUNCTION
 #define KRB5_LIB_CALL
+#define GSSAPI_LIB_FUNCTION
+#define GSSAPI_LIB_CALL
 
 #else
 
 #define KRB5_LIB_VARIABLE
 #define KRB5_LIB_FUNCTION
 #define KRB5_LIB_CALL __stdcall
+#define GSSAPI_LIB_FUNCTION
+#define GSSAPI_LIB_CALL __stdcall
 
 #define __attribute__(x)
 
 #include "rename-heim.h"
+#define heim_gsskrb5_extract_authz_data_from_sec_context gsskrb5_extract_authz_data_from_sec_context
+#define heim_gss_import_name gss_import_name
 
 #endif
 

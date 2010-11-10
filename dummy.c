@@ -35,14 +35,6 @@
 
 #include "dummy.h"
 
-dummy(gss_krb5_ui, 0);
-
-dummy(gss_str_to_oid, 0);
-
-dummy(gss_krb5_get_tkt_flags, 0);
-dummy(gss_sign, 0);
-dummy(gss_inquire_mechs_for_name, 0);
-dummy(gss_verify, 0);
 dummy(kim_ccache_compare, 0);
 dummy(kim_ccache_copy, 0);
 dummy(kim_ccache_create_from_client_identity, 0);

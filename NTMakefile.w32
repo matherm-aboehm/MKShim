@@ -433,3 +433,5 @@ LIBHEIMDAL=$(HEIMSDK)\lib\$(CPU)\heimdal.lib
 LIBROKEN=$(HEIMSDK)\lib\$(CPU)\libroken.lib
 LIBCOMERR=$(HEIMSDK)\lib\$(CPU)\libcom_err.lib
 LIBGSSAPI=$(HEIMSDK)\lib\$(CPU)\libgssapi.lib
+
+APPMANIFEST =$(HEIMSDK)\inc\Heimdal.Application.$(MCPU).manifest
