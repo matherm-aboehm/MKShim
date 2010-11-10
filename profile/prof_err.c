@@ -1,7 +1,7 @@
 /* Generated from prof_err.et */
 
 #include <stddef.h>
-#include <Heimdal/com_err.h>
+#include <com_err.h>
 #include "prof_err.h"
 
 #define N_(x) (x)

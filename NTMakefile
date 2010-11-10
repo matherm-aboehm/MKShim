@@ -5,10 +5,12 @@
 KRB5DLL=$(BINDIR)\krb5_32.dll
 COMERRDLL=$(BINDIR)\comerr32.dll
 GSSAPIDLL=$(BINDIR)\gssapi32.dll
+PROFILEDLL=$(BINDIR)\xpprof32.dll
 !else
 KRB5DLL=$(BINDIR)\krb5_64.dll
 COMERRDLL=$(BINDIR)\comerr64.dll
 GSSAPIDLL=$(BINDIR)\gssapi64.dll
+PROFILEDLL=$(BINDIR)\xpprof64.dll
 !endif
 
 
@@ -43,6 +45,15 @@ GSSAPIOBJS=\
 	$(OBJ)\dummy-gss.obj	\
 	$(OBJ)\log.obj		\
 
+PROFILEOBJS=\
+	$(OBJ)\prof_err.obj	\
+	$(OBJ)\prof_file.obj	\
+	$(OBJ)\prof_get.obj	\
+	$(OBJ)\prof_init.obj	\
+	$(OBJ)\prof_parse.obj	\
+	$(OBJ)\prof_set.obj	\
+	$(OBJ)\prof_tree.obj	\
+
 $(KRB5DLL): $(KRB5OBJS) $(LIBHEIMDAL) $(LIBROKEN)
 	$(DLLGUILINK) /def:krb5_32.def
 	$(DLLPREP_NODIST)
@@ -58,9 +69,20 @@ $(GSSAPIDLL): $(GSSAPIOBJS) $(LIBGSSAPI)
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
 
-all:: $(KRB5DLL) $(COMERRDLL) $(GSSAPIDLL)
+$(PROFILEDLL): $(PROFILEOBJS) $(LIBCOMERR) $(LIBROKEN)
+	$(DLLGUILINK) /def:xpprof32.def
+	$(DLLPREP_NODIST)
+	$(DLLPREP_MERGE)
+
+all:: $(KRB5DLL) $(COMERRDLL) $(GSSAPIDLL) $(PROFILEDLL)
 
 clean::
 	-$(RM) $(KRB5DLL)
 	-$(RM) $(COMERRDLL)
 	-$(RM) $(GSSAPIDLL)
+	-$(RM) $(PROFILEDLL)
+
+{profile}.c{$(OBJ)}.obj::
+	$(C2OBJ_C) /Fd$(OBJ)\ /Fo$(OBJ)\ @<<
+$<
+<<

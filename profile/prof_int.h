@@ -4,7 +4,11 @@
 
 #include <time.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include "winpthread.h"
+#else
 #include <pthread.h>
+#endif
 
 #if defined(__MACH__) && defined(__APPLE__)
 #include <TargetConditionals.h>
@@ -16,7 +20,9 @@
 
 #include "heim.h"
 #include "com_err.h"
-#include "profile.h"
+#include "mit-profile.h"
+
+#include <roken.h>
 
 typedef long prf_magic_t;
 
@@ -86,10 +92,8 @@ typedef struct _prf_file_t *prf_file_t;
 #define PROFILE_FILE_DEPRECATED_RW	0x0001
 #define PROFILE_FILE_DIRTY		0x0002
 #define PROFILE_FILE_SHARED		0x0004
-#ifdef __APPLE__
 #define PROFILE_FILE_INVALID		0x0008
 #define PROFILE_FILE_HAVE_DATA		0x0010
-#endif
 
 /*
  * This structure defines the high-level, user visible profile_t
