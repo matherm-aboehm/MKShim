@@ -21,31 +21,32 @@ KRB5OBJS=\
 	$(OBJ)\cache.obj	\
 	$(OBJ)\creds.obj	\
 	$(OBJ)\crypto.obj	\
+	$(OBJ)\dummy-krb5.obj	\
 	$(OBJ)\gic.obj		\
 	$(OBJ)\keytab.obj	\
+	$(OBJ)\krb5.res		\
 	$(OBJ)\log.obj		\
-	$(OBJ)\misc.obj		\
 	$(OBJ)\misc-mit.obj	\
+	$(OBJ)\misc.obj		\
 	$(OBJ)\mk_req.obj	\
 	$(OBJ)\password.obj	\
 	$(OBJ)\principal.obj	\
 	$(OBJ)\rd_req.obj	\
-	$(OBJ)\dummy-krb5.obj	\
-	$(OBJ)\krb5.res		\
+	$(OBJ)\string.obj	\
 
 COMERROBJS=\
 	$(OBJ)\com_err.obj		\
+	$(OBJ)\comerr.res		\
+	$(OBJ)\dispatch_once.obj 	\
 	$(OBJ)\dummy-comerr.obj		\
 	$(OBJ)\log.obj			\
-	$(OBJ)\dispatch_once.obj 	\
-	$(OBJ)\comerr.res		\
 
 GSSAPIOBJS=\
+	$(OBJ)\dummy-gss.obj	\
 	$(OBJ)\gss-glue.obj	\
 	$(OBJ)\gss-symbols.obj	\
-	$(OBJ)\dummy-gss.obj	\
-	$(OBJ)\log.obj		\
 	$(OBJ)\gssapi.res	\
+	$(OBJ)\log.obj		\
 
 PROFILEOBJS=\
 	$(OBJ)\prof_err.obj	\
@@ -62,12 +63,12 @@ $(KRB5DLL): $(KRB5OBJS) $(LIBHEIMDAL) $(LIBROKEN)
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
 
-$(COMERRDLL): $(COMERROBJS) $(LIBHEIMDAL) $(LIBGSSAPI) $(LIBCOMERR)
+$(COMERRDLL): $(COMERROBJS) $(LIBHEIMDAL) $(LIBGSSAPI) $(LIBCOMERR) $(LIBROKEN)
 	$(DLLGUILINK) /def:windows\comerr32.def
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
 
-$(GSSAPIDLL): $(GSSAPIOBJS) $(LIBGSSAPI)
+$(GSSAPIDLL): $(GSSAPIOBJS) $(LIBGSSAPI) $(LIBROKEN)
 	$(DLLGUILINK) /def:windows\gssapi32.def
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
