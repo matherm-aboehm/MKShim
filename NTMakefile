@@ -99,3 +99,16 @@ $(OBJ)\version.h: windows\NTMakefile.config
 #define RC_PRODVER_AUX   $(VER_PRODUCT_AUX)
 #define RC_PRODVER_PATCH $(VER_PRODUCT_PATCH)
 <<
+
+INSTALLER=$(INSTDIR)\MKShim.wixlib
+
+all:: $(INSTALLER)
+
+$(INSTALLER): $(OBJ)\installer.wixobj
+	$(LIT) -out $@ $**
+
+$(OBJ)\installer.wixobj: windows\installer.wxs
+	$(CANDLE) -out $@ $** -dBinDir=$(BINDIR) -arch $(XCPU)
+
+clean::
+	-$(RM) $(INSTALLER)

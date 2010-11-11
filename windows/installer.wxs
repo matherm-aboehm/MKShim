@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+  <?if $(sys.BUILDARCH)=x64 ?>
+
+  <?define Win64=yes ?>
+  <?define GuidShimKrb5=40C76C19-92A4-4220-B420-A884B3619FEC ?>
+  <?define GuidShimComerr=8C81C987-1583-45B8-98A8-8F697D09A717 ?>
+  <?define GuidShimGssapi=A2FCF07F-F74B-49EE-AA29-0250C1BCDE7D ?>
+  <?define GuidShimProf=17BF35E7-381F-43E1-9E00-E444C718E73F ?>
+  <?define Krb5Filename=krb5_64 ?>
+  <?define ComerrFilename=comerr64 ?>
+  <?define GssapiFilename=gssapi64 ?>
+  <?define ProfFileName=xpprof64 ?>
+
+  <?else?>
+
+  <?define Win64=no ?>
+  <?define GuidShimKrb5=5D13A1AE-9100-468D-BA48-7D4E937BC606 ?>
+  <?define GuidShimComerr=BD6E52F7-CA80-4D67-9357-8B4A192D1E07 ?>
+  <?define GuidShimGssapi=56AD8E22-2406-4C38-9A1A-465D411D6430 ?>
+  <?define GuidShimProf=DC694138-F035-4D30-96D1-D85F43BC70BD ?>
+  <?define Krb5Filename=krb5_32 ?>
+  <?define ComerrFilename=comerr32 ?>
+  <?define GssapiFilename=gssapi32 ?>
+  <?define ProfFileName=xpprof32 ?>
+
+  <?endif?>
+
+  <Fragment>
+
+    <DirectoryRef Id='dirBin' FileSource='$(var.BinDir)'>
+
+      <Component Id='comp.ShimKrb5' Guid='$(var.GuidShimKrb5)'
+                 Win64='$(var.Win64)'>
+        <File Name='$(var.Krb5Filename).dll' KeyPath='yes' />
+        <File Name='$(var.Krb5Filename).pdb' />
+      </Component>
+
+      <Component Id='comp.ShimComerr' Guid='$(var.GuidShimComerr)'
+                 Win64='$(var.Win64)'>
+        <File Name='$(var.ComerrFilename).dll' KeyPath='yes' />
+        <File Name='$(var.ComerrFilename).pdb' />
+      </Component>
+
+      <Component Id='comp.ShimGssapi' Guid='$(var.GuidShimGssapi)'
+                 Win64='$(var.Win64)'>
+        <File Name='$(var.GssapiFilename).dll' KeyPath='yes' />
+        <File Name='$(var.GssapiFilename).pdb' />
+      </Component>
+
+      <Component Id='comp.ShimProf' Guid='$(var.GuidShimProf)'
+                 Win64='$(var.Win64)'>
+        <File Name='$(var.ProfFileName).dll' KeyPath='yes' />
+        <File Name='$(var.ProfFileName).pdb' />
+      </Component>
+    </DirectoryRef>
+
+    <ComponentGroup Id='comp.Heimdal.MKShim'>
+      <ComponentRef Id='comp.ShimKrb5' />
+      <ComponentRef Id='comp.ShimComerr' />
+      <ComponentRef Id='comp.ShimGssapi' />
+      <ComponentRef Id='comp.ShimProf' />
+    </ComponentGroup>
+
+  </Fragment>
+</Wix>

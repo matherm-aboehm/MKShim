@@ -61,8 +61,10 @@ SRC=$(MAKEDIR)\..\..\..
 
 !  if "$(CPU)"=="i386" || "$(CPU)"=="x86"
 MCPU=x86
+XCPU=x86
 !  elseif "$(CPU)"=="AMD64"
 MCPU=amd64
+XCPU=x64
 !  else
 !    error Unknown CPU
 !  endif
@@ -114,10 +116,12 @@ SED=sed.exe
 
 CANDLE_CMD=candle.exe
 LIGHT_CMD=light.exe
+LIT_CMD=lit.exe
 
 # Commands
 CANDLE=$(CANDLE_CMD) -nologo
 LIGHT=$(LIGHT_CMD) -nologo
+LIT=$(LIT_CMD) -nologo
 
 #----------------------------------------------------------------
 # Build options
@@ -205,7 +209,7 @@ RC2RES = $(RC2RES_C) -fo $@ $**
 !ifndef RECURSE
 
 check-utils:
-	@for %%g in ( "$(SIGNTOOL)" "$(CANDLE_CMD)" "$(LIGHT_CMD)" "$(SED)") do @( \
+	@for %%g in ( "$(SIGNTOOL)" "$(CANDLE_CMD)" "$(LIGHT_CMD)" "$(LIT_CMD)" "$(SED)") do @( \
 	for /f %%f in ( "%%g" ) do @( \
 		if exist %%f @( \
 			echo Found %%f \
@@ -302,6 +306,9 @@ mkdirs:
 !  endif
 !  if !exist($(BINDIR))
 	$(MKDIR) $(BINDIR)
+!  endif
+!  if !exist($(INSTDIR))
+	$(MKDIR) $(INSTDIR)
 !  endif
 
 #----------------------------------------------------------------------
