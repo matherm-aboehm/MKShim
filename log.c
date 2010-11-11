@@ -153,6 +153,9 @@ void
 mshim_log_function_missing(const char *func)
 {
     mshim_log_entry("MITKerberosShim: function %s not implemented", func);
+#ifdef DEBUG
+    DebugBreak();
+#endif
 }
 
 #endif
