@@ -167,6 +167,168 @@ mshim_gic_opt(krb5_context context, mit_krb5_get_init_creds_opt *mopt)
     return opt;
 }
 
+typedef struct mshim_prompt_data {
+    mit_krb5_prompter_fct       prompter;
+    void                        *data;
+} mshim_prompt_data;
+
+static void
+mshim_hprompt2mprompt(const krb5_prompt * hprompt,
+                      mit_krb5_prompt * mprompt,
+                      mit_krb5_prompt_type * mtype)
+{
+    mprompt->prompt = hprompt->prompt;
+    mprompt->hidden = hprompt->hidden;
+    if (hprompt->reply) {
+        mprompt->reply = (mit_krb5_data *) mshim_malloc(sizeof(mit_krb5_data));
+        mshim_hdata2mdata(hprompt->reply, mprompt->reply);
+    } else {
+        mprompt->reply = NULL;
+    }
+}
+
+static void
+mshim_mprompt2hprompt(krb5_context context,
+                      const mit_krb5_prompt * mprompt,
+                      const mit_krb5_prompt_type * mtype,
+                      krb5_prompt * hprompt)
+{
+    hprompt->prompt = mprompt->prompt;
+    hprompt->hidden = mprompt->hidden;
+    if (mprompt->reply) {
+        krb5_data data;
+        data.data = mprompt->reply->data;
+        data.length = mprompt->reply->length;
+
+        heim_krb5_copy_data(context, &data, &hprompt->reply);
+    } else {
+        hprompt->reply = NULL;
+    }
+}
+
+static void
+mshim_free_mprompt(mit_krb5_context context, mit_krb5_prompt * p)
+{
+    if (p->reply) {
+        mit_krb5_free_data(NULL, p->reply);
+        p->reply = NULL;
+    }
+}
+
+static void
+mshim_free_hprompt(krb5_context context, krb5_prompt * p)
+{
+    if (p->reply) {
+        heim_krb5_free_data(context, p->reply);
+        p->reply = NULL;
+    }
+}
+
+static mit_krb5_prompt_type * mshim_prompt_types = NULL;
+
+mit_krb5_prompt_type* KRB5_CALLCONV
+mit_krb5_get_prompt_types (mit_krb5_context context)
+{
+    return mshim_prompt_types;
+}
+
+static int KRB5_CALLCONV
+mshim_prompter_func(krb5_context context, void * data,
+                    const char * name, const char * banner,
+                    int n_prompts, krb5_prompt prompts[])
+{
+    int                         rv = 0, i;
+    mit_krb5_prompt             * mprompts = NULL;
+    mit_krb5_prompt_type        * mtypes = NULL;
+    mshim_prompt_data           * pdata = (mshim_prompt_data *) data;
+
+    if (n_prompts > 0) {
+
+        mprompts = mshim_malloc(sizeof(mit_krb5_prompt) * n_prompts);
+        mtypes = mshim_malloc(sizeof(mit_krb5_prompt_type) * n_prompts);
+        if (mtypes == NULL || mprompts == NULL) {
+            rv = ENOMEM;
+            goto done;
+        }
+
+        for (i=0; i < n_prompts; i++)
+            mshim_hprompt2mprompt(&prompts[i], &mprompts[i], &mtypes[i]);
+    }
+
+    mshim_prompt_types = mtypes;
+
+    rv = (* pdata->prompter )(MC(context), pdata->data,
+                              (name ? name : ""),
+                              (banner ? banner : ""),
+                              n_prompts, mprompts);
+
+    mshim_prompt_types = NULL;
+
+    for (i=0; i < n_prompts; i++) {
+        if (mprompts[i].reply != NULL && prompts[i].reply != NULL) {
+            memcpy(prompts[i].reply->data, mprompts[i].reply->data,
+                   prompts[i].reply->length);
+        }
+    }
+    
+done:
+    if (mprompts) {
+        for (i = 0 ; i < n_prompts; i++)
+            mshim_free_mprompt(MC(context), &mprompts[i]);
+        free(mprompts);
+    }
+
+    if (mtypes) {
+        free(mtypes);
+    }
+
+    return rv;
+}
+
+mit_krb5_error_code KRB5_CALLCONV
+mit_krb5_prompter_posix(mit_krb5_context context,
+                        void *data,
+                        const char *name,
+                        const char *banner,
+                        int n_prompts,
+                        mit_krb5_prompt mprompts[])
+{
+    int                         rv = 0, i;
+    krb5_prompt                 * hprompts = NULL;
+    mit_krb5_prompt_type        * mtypes = NULL;
+
+    if (n_prompts > 0) {
+
+        hprompts = mshim_malloc(sizeof(mit_krb5_prompt) * n_prompts);
+        mtypes = mit_krb5_get_prompt_types(context);
+        if (mtypes == NULL || mprompts == NULL) {
+            rv = EINVAL;
+            goto done;
+        }
+
+        for (i=0; i < n_prompts; i++)
+            mshim_mprompt2hprompt(HC(context), &mprompts[i], &mtypes[i], &hprompts[i]);
+    }
+
+    rv = heim_krb5_prompter_posix(HC(context), NULL, name, banner, n_prompts, hprompts);
+
+    for (i=0; i < n_prompts; i++) {
+        if (mprompts[i].reply != NULL && hprompts[i].reply != NULL) {
+            memcpy(mprompts[i].reply->data, hprompts[i].reply->data,
+                   mprompts[i].reply->length);
+        }
+    }
+
+done:
+    if (hprompts) {
+        for (i = 0 ; i < n_prompts; i++)
+            mshim_free_hprompt(HC(context), &hprompts[i]);
+        free(hprompts);
+    }
+
+    return rv;
+}
+
 mit_krb5_error_code KRB5_CALLCONV
 mit_krb5_get_init_creds_password(mit_krb5_context context,
                                  mit_krb5_creds *creds,
@@ -183,6 +345,8 @@ mit_krb5_get_init_creds_password(mit_krb5_context context,
     krb5_error_code ret;
     krb5_creds hcreds;
     krb5_prompter_fct pfct = NULL;
+    void * pfct_data = NULL;
+    mshim_prompt_data pdata;
 
     LOG_ENTRY();
 
@@ -196,13 +360,15 @@ mit_krb5_get_init_creds_password(mit_krb5_context context,
     else if (prompter == NULL)
 	pfct = NULL;
     else {
-	if (opt)
-	    heim_krb5_get_init_creds_opt_free(HC(context), opt);
-	return EINVAL;
+        pdata.prompter = prompter;
+        pdata.data = data;
+
+        pfct_data = &pdata;
+        pfct = mshim_prompter_func;
     }
 
     ret = heim_krb5_get_init_creds_password(HC(context), &hcreds, p->heim, password, 
-					    pfct, NULL, start_time, in_tkt_service, opt);
+					    pfct, pfct_data, start_time, in_tkt_service, opt);
     if (opt)
 	heim_krb5_get_init_creds_opt_free(HC(context), opt);
     if (ret)

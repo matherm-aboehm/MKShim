@@ -351,9 +351,6 @@ dummyk5(krb5_get_permitted_enctypes, mit_krb5_error_code,
 dummyk5(krb5_get_profile, mit_krb5_error_code,
         (mit_krb5_context c, struct _profile_t **p), MIT_KRB5KRB_ERR_GENERIC);
 
-dummyk5(krb5_get_prompt_types, mit_krb5_prompt_type *,
-        (mit_krb5_context context), NULL);
-
 dummyk5(krb5_get_time_offsets, mit_krb5_error_code,
         (mit_krb5_context context, mit_krb5_timestamp *t, mit_krb5_int32 *i),
         MIT_KRB5KRB_ERR_GENERIC);

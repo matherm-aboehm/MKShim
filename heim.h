@@ -112,6 +112,7 @@ struct comb_principal {
 };
 
 #define HC(x) ((krb5_context)x)
+#define MC(x) ((mit_krb5_context)x)
 
 struct mshim_map_flags {
     unsigned long in;

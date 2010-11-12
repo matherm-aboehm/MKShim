@@ -641,17 +641,6 @@ mit_krb5_os_localaddr(mit_krb5_context context, mit_krb5_address ***addresses)
 }
 
 mit_krb5_error_code KRB5_CALLCONV
-mit_krb5_prompter_posix(mit_krb5_context context,
-                        void *data,
-                        const char *name,
-                        const char *banner,
-                        int num_prompts,
-                        mit_krb5_prompt prompts[])
-{
-    return EINVAL;
-}
-
-mit_krb5_error_code KRB5_CALLCONV
 mit_krb5_get_validated_creds(mit_krb5_context context,
                              mit_krb5_creds *creds,
                              mit_krb5_principal client,
