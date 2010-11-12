@@ -589,19 +589,6 @@ done:
 #endif
 }
 
-mit_krb5_error_code KRB5_CALLCONV
-mit_krb5_enctype_to_string(mit_krb5_enctype enctype,
-                           char *str, 
-                           size_t size)
-{
-#ifdef HAVE_STRSAFE
-    StringCchPrintfA(str, size, "enctype-%d", enctype);
-#else
-    snprintf(str, size, "enctype-%d", enctype);
-#endif
-    return 0;
-}
-
 void KRB5_CALLCONV
 mit_krb5_free_addresses(mit_krb5_context context, mit_krb5_address **addrs)
 {
@@ -650,19 +637,6 @@ mit_krb5_os_localaddr(mit_krb5_context context, mit_krb5_address ***addresses)
     }
     a[i] = NULL;
 
-    return 0;
-}
-
-mit_krb5_error_code KRB5_CALLCONV
-mit_krb5_string_to_deltat(char *str, mit_krb5_deltat *t)
-{
-    krb5_error_code ret;
-    krb5_deltat ht;
-
-    ret = heim_krb5_string_to_deltat(str, &ht);
-    if (ret)
-	return ret;
-    *t = ht;
     return 0;
 }
 
