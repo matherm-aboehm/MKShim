@@ -723,6 +723,21 @@ mit_krb5_set_real_time(mit_krb5_context context,
     return heim_krb5_set_real_time(HC(context), ts, usec);
 }
 
+mit_krb5_error_code KRB5_CALLCONV
+mit_krb5_get_default_config_files (char *** pconfig_files)
+{
+    LOG_ENTRY();
+    return heim_krb5_get_default_config_files(pconfig_files);
+}
+
+void KRB5_CALLCONV
+mit_krb5_free_config_files (char ** config_files)
+{
+    LOG_ENTRY();
+    heim_krb5_free_config_files(config_files);
+}
+
+
 #ifdef __APPLE__
 
 #include "Kerberos/kim_library.h"

@@ -297,9 +297,6 @@ dummyk5v(krb5_free_checksum_contents,
 dummyk5v(krb5_free_cksumtypes,
          (mit_krb5_context c, mit_krb5_cksumtype *s));
 
-dummyk5v(krb5_free_config_files,
-         (char ** s));
-
 dummyk5v(krb5_free_tgt_creds,
          (mit_krb5_context context, mit_krb5_creds **c));
 
@@ -315,9 +312,6 @@ dummyk5(krb5_get_credentials_renew, mit_krb5_error_code,
 dummyk5(krb5_get_credentials_validate, mit_krb5_error_code,
         (mit_krb5_context context, mit_krb5_flags f, mit_krb5_ccache cc, mit_krb5_creds *c,
          mit_krb5_creds **cr),MIT_KRB5KRB_ERR_GENERIC);
-
-dummyk5(krb5_get_default_config_files, mit_krb5_error_code,
-        (char *** s), MIT_KRB5KRB_ERR_GENERIC);
 
 dummyk5(krb5_get_in_tkt, mit_krb5_error_code,
         (mit_krb5_context context, mit_krb5_flags f, mit_krb5_address * const * a,
