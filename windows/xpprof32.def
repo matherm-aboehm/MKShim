@@ -1,10 +1,8 @@
 ;----------------------------------------------------
 ;   XPPROF32.DEF - XPPROF32.DLL 
 ;----------------------------------------------------
-
-;LIBRARY		XPPROF32.DLL
-DESCRIPTION	'Cross Platform Profile DLL'
-HEAPSIZE	8192
+;
+; From Kerberos for Windows 3.2.2
 
 EXPORTS
          profile_abandon		  @1

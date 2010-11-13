@@ -1,6 +1,8 @@
-;LIBRARY		COMERR32
-DESCRIPTION	'DLL for ComErr'
-HEAPSIZE	8192
+;
+; Exports list for COMERR{32,64}.DLL
+;
+; Ordinals are based on Kerberos for Windows 3.2.2.  Note that any
+; export added here need to have a fixed ordinal.
 
 EXPORTS
 	com_err = mit_com_err                           @2

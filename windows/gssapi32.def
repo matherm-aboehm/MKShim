@@ -1,10 +1,9 @@
 ;----------------------------------------------------
 ;   GSSAPI32.DEF - GSSAPI32.DLL module definition file
 ;----------------------------------------------------
-
-;LIBRARY		GSSAPI32
-DESCRIPTION	'Base Generic Security Service API'
-HEAPSIZE	8192
+;
+; From Kerberos for Windows 3.2.2
+;
 
 EXPORTS
 	gss_acquire_cred			@10
