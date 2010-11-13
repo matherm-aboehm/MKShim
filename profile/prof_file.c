@@ -347,7 +347,8 @@ errcode_t profile_open_file(const_profile_filespec_t filespec,
 	return 0;
 }
 
-void profile_configuration_updated(void)
+void KRB5_CALLCONV
+profile_configuration_updated(void)
 {
 #ifdef __APPLE__
     notify_post(APPLE_NOTIFICATION_NAME);

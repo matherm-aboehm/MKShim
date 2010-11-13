@@ -252,7 +252,7 @@ mit_krb5_kt_read_service_key(mit_krb5_context context,
     return ret;
 }
 
-mit_krb5_error_code KRB5_LIB_FUNCTION
+mit_krb5_error_code KRB5_CALLCONV
 mit_krb5_kt_remove_entry(mit_krb5_context context,
                          mit_krb5_keytab id,
                          mit_krb5_keytab_entry *entry)

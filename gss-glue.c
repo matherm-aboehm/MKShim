@@ -47,10 +47,10 @@ heim_gsskrb5_extract_authz_data_from_sec_context(OM_uint32 * /*minor_status*/,
 						 int /*ad_type*/,
 						 gss_buffer_t /*ad_data*/);
 
-uint32_t KRB5_CALLCONV
-apple_gss_krb5_export_authdata_if_relevant_context(uint32_t *min_stat,
+OM_uint32 KRB5_CALLCONV
+apple_gss_krb5_export_authdata_if_relevant_context(OM_uint32 *min_stat,
 						   gss_ctx_id_t *context_handle,
-						   uint32_t version,
+						   OM_uint32 version,
 						   void **kctx)
 {
     apple_gss_krb5_authdata_if_relevant *d;
@@ -94,7 +94,7 @@ apple_gss_krb5_export_authdata_if_relevant_context(uint32_t *min_stat,
     return GSS_S_COMPLETE;
 }
 
-uint32_t
+uint32_t KRB5_CALLCONV
 apple_gss_krb5_free_authdata_if_relevant(uint32_t *minor_status,
 					 void *kctx)
 {

@@ -330,21 +330,21 @@ mshim_remap_flags(unsigned long in, const struct mshim_map_flags *table)
 }
 
 
-mit_krb5_error_code
+mit_krb5_error_code KRB5_CALLCONV
 mit_krb5_init_context(mit_krb5_context *context)
 {
     LOG_ENTRY();
     return heim_krb5_init_context((krb5_context *)context);
 }
 
-mit_krb5_error_code
+mit_krb5_error_code KRB5_CALLCONV
 mit_krb5_init_secure_context(mit_krb5_context *context)
 {
     LOG_ENTRY();
     return heim_krb5_init_context((krb5_context *)context);
 }
 
-void
+void KRB5_CALLCONV
 mit_krb5_free_context(mit_krb5_context context)
 {
     LOG_ENTRY();
