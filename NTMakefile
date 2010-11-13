@@ -59,22 +59,22 @@ PROFILEOBJS=\
 	$(OBJ)\xpprof.res	\
 
 $(KRB5DLL): $(KRB5OBJS) $(LIBHEIMDAL) $(LIBROKEN)
-	$(DLLGUILINK) /def:windows\krb5_32.def
+	$(DLLGUILINK) /def:windows\krb5.def
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
 
 $(COMERRDLL): $(COMERROBJS) $(LIBHEIMDAL) $(LIBGSSAPI) $(LIBCOMERR) $(LIBROKEN)
-	$(DLLGUILINK) /def:windows\comerr32.def
+	$(DLLGUILINK) /def:windows\comerr.def
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
 
 $(GSSAPIDLL): $(GSSAPIOBJS) $(LIBGSSAPI) $(LIBROKEN)
-	$(DLLGUILINK) /def:windows\gssapi32.def
+	$(DLLGUILINK) /def:windows\gssapi.def
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
 
 $(PROFILEDLL): $(PROFILEOBJS) $(LIBCOMERR) $(LIBROKEN)
-	$(DLLGUILINK) /def:windows\xpprof32.def
+	$(DLLGUILINK) /def:windows\xpprof.def
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
 
