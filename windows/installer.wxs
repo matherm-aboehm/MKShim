@@ -8,10 +8,12 @@
   <?define GuidShimComerr=8C81C987-1583-45B8-98A8-8F697D09A717 ?>
   <?define GuidShimGssapi=A2FCF07F-F74B-49EE-AA29-0250C1BCDE7D ?>
   <?define GuidShimProf=17BF35E7-381F-43E1-9E00-E444C718E73F ?>
+  <?define GuidShimLeash=81450133-59EB-4763-B793-616BCA626AEF ?>
   <?define Krb5Filename=krb5_64 ?>
   <?define ComerrFilename=comerr64 ?>
   <?define GssapiFilename=gssapi64 ?>
   <?define ProfFileName=xpprof64 ?>
+  <?define LeashFileName=leashw64 ?>
 
   <?else?>
 
@@ -20,10 +22,12 @@
   <?define GuidShimComerr=BD6E52F7-CA80-4D67-9357-8B4A192D1E07 ?>
   <?define GuidShimGssapi=56AD8E22-2406-4C38-9A1A-465D411D6430 ?>
   <?define GuidShimProf=DC694138-F035-4D30-96D1-D85F43BC70BD ?>
+  <?define GuidShimLeash=AC75774C-1D21-4DD6-8C8A-56375227130D ?>
   <?define Krb5Filename=krb5_32 ?>
   <?define ComerrFilename=comerr32 ?>
   <?define GssapiFilename=gssapi32 ?>
   <?define ProfFileName=xpprof32 ?>
+  <?define LeashFileName=leashw32 ?>
 
   <?endif?>
 
@@ -53,6 +57,12 @@
                  Win64='$(var.Win64)'>
         <File Name='$(var.ProfFileName).dll' KeyPath='yes' />
         <File Name='$(var.ProfFileName).pdb' />
+      </Component>
+
+      <Component Id='comp.ShimLeash' Guid='$(var.GuidShimLeash)'
+                 Win64='$(var.Win64)'>
+        <File Name='$(var.LeashFileName).dll' KeyPath='yes' />
+        <File Name='$(var.LeashFileName).pdb' />
       </Component>
     </DirectoryRef>
 
