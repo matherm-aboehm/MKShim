@@ -8,10 +8,17 @@
 #include <stdlib.h>
 
 #define dummy(func_name, ret_type, args, retval)                        \
-    ret_type func_name args                                                  \
+    ret_type func_name args                                             \
     {                                                                   \
         mshim_log_function_missing( #func_name );                       \
         return (retval);                                                \
+    }
+
+#define dummyv(func_name, args)                                         \
+    void func_name args                                                 \
+    {                                                                   \
+        mshim_log_function_missing( #func_name );                       \
+        return;                                                         \
     }
 
 #define dummyk5(func_name, ret_type, args, retval)                      \
@@ -29,13 +36,13 @@
     }
 
 #define quietdummy(func_name, ret_type, args, retval)   \
-    ret_type func_name args                                  \
+    ret_type func_name args                             \
     {                                                   \
         return (retval);                                \
     }
 
 #define quietdummyk5(func_name, ret_type, args, retval)   \
-    ret_type KRB5_CALLCONV mit_ ## func_name args              \
+    ret_type KRB5_CALLCONV mit_ ## func_name args         \
     {                                                     \
         return (retval);                                  \
     }
