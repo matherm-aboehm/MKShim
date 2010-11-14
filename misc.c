@@ -674,9 +674,13 @@ mit_krb5_get_renewed_creds (mit_krb5_context context,
     krb5_error_code ret;
     krb5_creds hcreds;
 
-    mshim_mcred2hcred(HC(context), creds, &hcreds);
+    LOG_ENTRY();
 
-    ret = heim_krb5_get_renewed_creds(HC(context), &hcreds, p->heim, (krb5_ccache)ccache, in_tkt_service);
+    memset(&hcreds, 0, sizeof(hcreds));
+    ret = heim_krb5_get_renewed_creds(HC(context), &hcreds, p->heim, (krb5_ccache)ccache,
+                                      in_tkt_service);
+    if (ret == 0)
+        mshim_hcred2mcred(HC(context), &hcreds, creds);
     heim_krb5_free_cred_contents(HC(context), &hcreds);
     return ret;
 }
