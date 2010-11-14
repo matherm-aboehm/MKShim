@@ -617,6 +617,8 @@ mit_krb5_os_localaddr(mit_krb5_context context, mit_krb5_address ***addresses)
     krb5_addresses addrs;
     krb5_error_code ret;
     unsigned i;
+
+    LOG_ENTRY();
     
     *addresses = NULL;
 
@@ -650,6 +652,8 @@ mit_krb5_get_validated_creds(mit_krb5_context context,
     struct comb_principal *p = (struct comb_principal *)client;
     krb5_error_code ret;
     krb5_creds hcreds;
+
+    LOG_ENTRY();
 
     mshim_mcred2hcred(HC(context), creds, &hcreds);
 
