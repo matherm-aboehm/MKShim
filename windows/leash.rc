@@ -1,0 +1,6 @@
+
+#define RC_FILE_TYPE VFT_DLL
+#define RC_FILE_DESC_0409 "Leash DLL Shim"
+#define RC_FILE_ORIG_0409 "leashw32.dll"
+
+#include "version.rc"
