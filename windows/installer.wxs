@@ -71,6 +71,7 @@
       <ComponentRef Id='comp.ShimComerr' />
       <ComponentRef Id='comp.ShimGssapi' />
       <ComponentRef Id='comp.ShimProf' />
+      <ComponentRef Id='comp.ShimLeash' />
     </ComponentGroup>
 
   </Fragment>
