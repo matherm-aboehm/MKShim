@@ -9,11 +9,15 @@
   <?define GuidShimGssapi=A2FCF07F-F74B-49EE-AA29-0250C1BCDE7D ?>
   <?define GuidShimProf=17BF35E7-381F-43E1-9E00-E444C718E73F ?>
   <?define GuidShimLeash=81450133-59EB-4763-B793-616BCA626AEF ?>
+  <?define GuidKrbccDll=778C5A61-9358-4C56-8176-7DD0A6A93649 ?>
+  <?define GuidKrbccsExe=A40A3D2A-D9CE-4633-9661-3C9873CC5CC7 ?>
   <?define Krb5Filename=krb5_64 ?>
   <?define ComerrFilename=comerr64 ?>
   <?define GssapiFilename=gssapi64 ?>
   <?define ProfFileName=xpprof64 ?>
   <?define LeashFileName=leashw64 ?>
+  <?define KrbccFileName=krbcc64 ?>
+  <?define KrbccSFileName=krbcc64s ?>
 
   <?else?>
 
@@ -23,11 +27,15 @@
   <?define GuidShimGssapi=56AD8E22-2406-4C38-9A1A-465D411D6430 ?>
   <?define GuidShimProf=DC694138-F035-4D30-96D1-D85F43BC70BD ?>
   <?define GuidShimLeash=AC75774C-1D21-4DD6-8C8A-56375227130D ?>
+  <?define GuidKrbccDll=6CED118B-B908-4910-B415-6C92689A522D ?>
+  <?define GuidKrbccsExe=C1A5B019-C83C-487F-AEE8-B2A62FDA39F7 ?>
   <?define Krb5Filename=krb5_32 ?>
   <?define ComerrFilename=comerr32 ?>
   <?define GssapiFilename=gssapi32 ?>
   <?define ProfFileName=xpprof32 ?>
   <?define LeashFileName=leashw32 ?>
+  <?define KrbccFileName=krbcc32 ?>
+  <?define KrbccSFileName=krbcc32s ?>
 
   <?endif?>
 
@@ -64,6 +72,22 @@
         <File Name='$(var.LeashFileName).dll' KeyPath='yes' />
         <File Name='$(var.LeashFileName).pdb' />
       </Component>
+
+      <?ifdef UseKfwDlls?>
+
+      <Component Id='comp.Krbcc' Guid='$(var.GuidKrbccDll)'
+                 Win64='$(var.Win64)'>
+        <File Source='$(var.KfwBinDir)\$(var.KrbccFileName).dll' KeyPath='yes'
+              Id='file.Shim.Krbcc' />
+      </Component>
+
+      <Component Id='comp.KrbccS' Guid='$(var.GuidKrbccsExe)'
+                 Win64='$(var.Win64)'>
+        <File Source='$(var.KfwBinDir)\$(var.KrbccSFileName).exe' KeyPath='yes'
+              Id='file.Shim.KrbccS' />
+      </Component>
+
+      <?endif?>
     </DirectoryRef>
 
     <ComponentGroup Id='comp.Heimdal.MKShim'>
@@ -72,6 +96,12 @@
       <ComponentRef Id='comp.ShimGssapi' />
       <ComponentRef Id='comp.ShimProf' />
       <ComponentRef Id='comp.ShimLeash' />
+
+      <?ifdef UseKfwDlls?>
+      <ComponentRef Id='comp.Krbcc' />
+      <ComponentRef Id='comp.KrbccS' />
+      <?endif?>
+
     </ComponentGroup>
 
   </Fragment>

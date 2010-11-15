@@ -94,6 +94,26 @@ OBJ    =$(OBJDIR)
 # For tests:
 PATH=$(PATH);$(BINDIR)
 
+!ifdef KFWSDK
+
+! if exist($(KFWSDK)\bin\$(CPU))
+
+KFWLIBDIR=$(KFWSDK)\lib\$(CPU)
+KFWBINDIR=$(KFWSDK)\bin\$(CPU)
+
+! else
+
+KFWLIBDIR=$(KFWSDK)\lib
+KFWBINDIR=$(KFWSDK)\bin
+
+! endif
+
+!else				# KFWSDK not defined
+! ifdef USE_KFW_DLLS
+!  error KFWSDK needs to be defined if USE_KFW_DLLS is set
+! endif
+!endif
+
 #----------------------------------------------------------------
 # Command macros
 

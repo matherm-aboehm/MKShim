@@ -141,8 +141,12 @@ all:: $(INSTALLER)
 $(INSTALLER): $(OBJ)\installer.wixobj
 	$(LIT) -out $@ $**
 
+!ifdef USE_KFW_DLLS
+WIXKFWOPT=-dUseKfwDlls=1 -dKfwBinDir=$(KFWBINDIR)
+!endif
+
 $(OBJ)\installer.wixobj: windows\installer.wxs
-	$(CANDLE) -out $@ $** -dBinDir=$(BINDIR) -arch $(XCPU)
+	$(CANDLE) -out $@ $** -dBinDir=$(BINDIR) $(WIXKFWOPT) -arch $(XCPU)
 
 clean::
 	-$(RM) $(INSTALLER)
