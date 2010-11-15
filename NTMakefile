@@ -97,6 +97,7 @@ clean::
 	-$(RM) $(COMERRDLL)
 	-$(RM) $(GSSAPIDLL)
 	-$(RM) $(PROFILEDLL)
+	-$(RM) $(LEASHDLL)
 
 $(OBJ)\version.h: windows\NTMakefile.config
 	$(CP) << $@
