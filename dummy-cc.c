@@ -1,4 +1,5 @@
 #include "dummy.h"
+#include <mit-CredentialsCache2.h>
 
 dummy(cc_close, cc_int32,
       (apiCB *in_context, ccache_p **ioCCache), CC_NOT_SUPP);
@@ -75,3 +76,6 @@ dummy(cc_store, cc_int32,
       (apiCB *in_context, ccache_p *in_ccache, cred_union in_credentials),
       CC_NOT_SUPP);
 
+dummy(cc_lock_request, cc_int32,
+      (apiCB          *in_context, const ccache_p *in_ccache, const cc_int32  in_lock_type),
+      CC_NOT_SUPP);
