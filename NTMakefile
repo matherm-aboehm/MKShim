@@ -7,12 +7,14 @@ COMERRDLL=$(BINDIR)\comerr32.dll
 GSSAPIDLL=$(BINDIR)\gssapi32.dll
 PROFILEDLL=$(BINDIR)\xpprof32.dll
 LEASHDLL=$(BINDIR)\leashw32.dll
+KRBCCDLL=$(BINDIR)\krbcc32.dll
 !else
 KRB5DLL=$(BINDIR)\krb5_64.dll
 COMERRDLL=$(BINDIR)\comerr64.dll
 GSSAPIDLL=$(BINDIR)\gssapi64.dll
 PROFILEDLL=$(BINDIR)\xpprof64.dll
 LEASHDLL=$(BINDIR)\leashw64.dll
+KRBCCDLL=$(BINDIR)\krbcc64.dll
 !endif
 
 rename-heim.h: $(HEIMSDK)\inc\heimdal\krb5-protos.h $(HEIMSDK)\inc\com_err.h $(HEIMSDK)\inc\com_right.h
@@ -89,6 +91,24 @@ $(LEASHDLL): $(LEASHOBJS) $(LIBHEIMDAL) $(LIBROKEN)
 	$(DLLGUILINK) /def:windows\leashw.def
 	$(DLLPREP_NODIST)
 	$(DLLPREP_MERGE)
+
+!ifndef USE_KFW_DLLS
+KRBCCOBJS=\
+	$(OBJ)\dummy-cc.obj	\
+	$(OBJ)\log.obj		\
+	$(OBJ)\ccache.obj	\
+
+$(KRBCCDLL): $(KRBCCOBJS) $(LIBHEIMDAL) $(LIBROKEN)
+	$(DLLGUILINK) /def:windows\krbcc.def
+	$(DLLPREP_NODIST)
+	$(DLLPREP_MERGE)
+
+all:: $(KRBCCDLL)
+
+clean::
+	-$(RM) $(KRBCCDLL)
+
+!endif
 
 all:: $(OBJ)\version.h $(KRB5DLL) $(COMERRDLL) $(GSSAPIDLL) $(PROFILEDLL) $(LEASHDLL)
 
