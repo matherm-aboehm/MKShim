@@ -135,7 +135,9 @@ void KRB5_CALLCONV
 mit_krb5_get_init_creds_opt_set_address_list(mit_krb5_get_init_creds_opt *opt,
                                              mit_krb5_address **addresses)
 {
-    LOG_UNIMPLEMENTED();
+    if (addresses != NULL) {
+        LOG_UNIMPLEMENTED();
+    }
 }
 
 void KRB5_CALLCONV
