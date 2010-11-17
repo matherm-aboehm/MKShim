@@ -6,7 +6,7 @@ mit_krb5_error_code KRB5_CALLCONV
 mit_krb5_timestamp_to_sfstring (mit_krb5_timestamp ts, char *buffer,
                                 size_t buflen, char *pad)
 {
-    size_t      c;
+    size_t      c = 0;
     struct tm   tm;
     time_t      timestamp = ts;
     int         i;
