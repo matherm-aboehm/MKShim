@@ -47,4 +47,10 @@
         return (retval);                                  \
     }
 
+#define quietdummyk5v(func_name, args)                                  \
+    void KRB5_CALLCONV mit_ ## func_name args                           \
+    {                                                                   \
+        return;                                                         \
+    }
+
 #endif  /* __dummy_h__ */
