@@ -184,24 +184,12 @@ dummyk5(krb5_calculate_checksum, mit_krb5_error_code,
          size_t in_length, mit_krb5_const_pointer seed, size_t seed_length,
          mit_krb5_checksum * outcksum), MIT_KRB5KRB_ERR_GENERIC);
 
-dummyk5(krb5_cc_copy_creds, mit_krb5_error_code,
-        (mit_krb5_context context, mit_krb5_ccache incc, mit_krb5_ccache outcc),
-        MIT_KRB5KRB_ERR_GENERIC);
-
 dummyk5(krb5_cc_last_change_time, mit_krb5_error_code,
         (mit_krb5_context context, mit_krb5_ccache ccache,
          mit_krb5_timestamp *change_time), MIT_KRB5KRB_ERR_GENERIC);
 
 dummyk5(krb5_cc_lock, mit_krb5_error_code,
         (mit_krb5_context context, mit_krb5_ccache ccache), MIT_KRB5KRB_ERR_GENERIC);
-
-dummyk5(krb5_cc_move, mit_krb5_error_code,
-        (mit_krb5_context context, mit_krb5_ccache src, mit_krb5_ccache dst),
-        MIT_KRB5KRB_ERR_GENERIC);
-
-dummyk5(krb5_cc_remove_cred, mit_krb5_error_code,
-        (mit_krb5_context context, mit_krb5_ccache cache, mit_krb5_flags flags,
-         mit_krb5_creds *creds), MIT_KRB5KRB_ERR_GENERIC);
 
 dummyk5(krb5_cc_set_config, mit_krb5_error_code,
         (mit_krb5_context context, mit_krb5_ccache cache,

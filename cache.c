@@ -76,6 +76,26 @@ mit_krb5_cc_store_cred(mit_krb5_context context,
 }
 
 mit_krb5_error_code KRB5_CALLCONV
+mit_krb5_cc_copy_creds(mit_krb5_context context,
+                       mit_krb5_ccache incc,
+                       mit_krb5_ccache outcc)
+{
+    krb5_error_code ret;
+    LOG_ENTRY();
+    ret = heim_krb5_cc_copy_creds(HC(context), (krb5_ccache)incc, (krb5_ccache)outcc);
+    return ret;
+}
+
+mit_krb5_error_code KRB5_CALLCONV
+mit_krb5_cc_move(mit_krb5_context context, mit_krb5_ccache src, mit_krb5_ccache dst)
+{
+    krb5_error_code ret;
+    LOG_ENTRY();
+    ret = heim_krb5_cc_move(HC(context), (krb5_ccache)src, (krb5_ccache)dst);
+    return ret;
+}
+
+mit_krb5_error_code KRB5_CALLCONV
 mit_krb5_cc_get_principal (mit_krb5_context context,
                            mit_krb5_ccache cache,
                            mit_krb5_principal *principal)
@@ -205,6 +225,27 @@ mit_krb5_cc_retrieve_cred(mit_krb5_context context,
     }
     return ret;
 
+}
+
+mit_krb5_error_code KRB5_CALLCONV
+mit_krb5_cc_remove_cred(mit_krb5_context context, mit_krb5_ccache cache,
+                        mit_krb5_flags flags, mit_krb5_creds *mcreds)
+{
+    krb5_error_code ret;
+    krb5_creds hmcreds;
+    krb5_flags fields;
+
+    LOG_ENTRY();
+
+    fields = mshim_remap_flags(flags, whichfields_flags);
+
+    mshim_mcred2hcred(HC(context), mcreds, &hmcreds);
+
+    ret = heim_krb5_cc_remove_cred(HC(context), (krb5_ccache) cache,
+                                   fields, &hmcreds);
+    heim_krb5_free_cred_contents(HC(context), &hmcreds);
+
+    return ret;
 }
 
 mit_krb5_error_code KRB5_CALLCONV
