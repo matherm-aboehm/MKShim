@@ -323,8 +323,8 @@ dummyk5(krb5_get_in_tkt_with_skey, mit_krb5_error_code,
          krb5_preauthtype *pa, const krb5_keyblock *kb, krb5_ccache cc, krb5_creds *c,
          krb5_kdc_rep **rep), KRB5_KT_NOTFOUND);
 
-dummyk5v(krb5_get_init_creds_opt_set_change_password_prompt,
-        (mit_krb5_get_init_creds_opt *opt, int prompt));
+quietdummyk5v(krb5_get_init_creds_opt_set_change_password_prompt,
+              (mit_krb5_get_init_creds_opt *opt, int prompt));
 
 dummyk5(krb5_get_init_creds_opt_set_pa, mit_krb5_error_code,
         (mit_krb5_context context, mit_krb5_get_init_creds_opt *opt,
