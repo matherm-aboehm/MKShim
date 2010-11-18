@@ -110,7 +110,9 @@ clean::
 
 !endif
 
-all:: $(OBJ)\version.h $(KRB5DLL) $(COMERRDLL) $(GSSAPIDLL) $(PROFILEDLL) $(LEASHDLL)
+ALLBINS=$(KRB5DLL) $(COMERRDLL) $(GSSAPIDLL) $(PROFILEDLL) $(LEASHDLL)
+
+all:: $(OBJ)\version.h $(ALLBINS)
 
 clean::
 	-$(RM) $(KRB5DLL)
@@ -138,8 +140,8 @@ INSTALLER=$(INSTDIR)\MKShim.wixlib
 
 all:: $(INSTALLER)
 
-$(INSTALLER): $(OBJ)\installer.wixobj
-	$(LIT) -out $@ $**
+$(INSTALLER): $(OBJ)\installer.wixobj $(ALLBINS)
+	$(LIT) -out $@ $(OBJ)\installer.wixobj
 
 !ifdef USE_KFW_DLLS
 WIXKFWOPT=-dUseKfwDlls=1 -dKfwBinDir=$(KFWBINDIR)
