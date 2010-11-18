@@ -399,6 +399,11 @@ mit_krb5_get_init_creds_keytab(mit_krb5_context context,
 
     LOG_ENTRY();
 
+    if (arg_keytab == NULL) {
+        heim_krb5_set_error_message(HC(context), EINVAL, "Keytab is required");
+        return EINVAL;
+    }
+
     opt = mshim_gic_opt(HC(context), mopt);
 
     memset(creds, 0, sizeof(*creds));
