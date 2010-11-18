@@ -216,7 +216,7 @@ make_cred_from_ccred(krb5_context context,
 
 nomem:
     ret = ENOMEM;
-    mit_krb5_set_error_message((mit_krb5_context)context, ret, "malloc: out of memory");
+    heim_krb5_set_error_message(context, ret, "malloc: out of memory");
 
 fail:
     heim_krb5_free_cred_contents(context, cred);
