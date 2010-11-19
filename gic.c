@@ -179,7 +179,7 @@ mshim_hprompt2mprompt(const krb5_prompt * hprompt,
                       mit_krb5_prompt * mprompt,
                       mit_krb5_prompt_type * mtype)
 {
-    mprompt->prompt = hprompt->prompt;
+    mprompt->prompt = (char *) hprompt->prompt;
     mprompt->hidden = hprompt->hidden;
     if (hprompt->reply) {
         mprompt->reply = (mit_krb5_data *) mshim_malloc(sizeof(mit_krb5_data));

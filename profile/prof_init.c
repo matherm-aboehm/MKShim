@@ -99,7 +99,7 @@ profile_copy(profile_t old_profile, profile_t *new_profile)
 	files[i] = file->data->filespec;
     files[size] = NULL;
     err = profile_init (files, new_profile);
-    free (files);
+    free ((profile_filespec_t *) files);
     return err;
 }
 
