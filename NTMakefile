@@ -136,6 +136,8 @@ $(OBJ)\version.h: windows\NTMakefile.config
 #define RC_PRODVER_PATCH $(VER_PRODUCT_PATCH)
 <<
 
+!ifdef BUILD_INSTALLERS
+
 INSTALLER=$(INSTDIR)\MKShim.wixlib
 
 all:: $(INSTALLER)
@@ -152,3 +154,5 @@ $(OBJ)\installer.wixobj: windows\installer.wxs
 
 clean::
 	-$(RM) $(INSTALLER)
+
+!endif
