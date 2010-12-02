@@ -74,8 +74,15 @@ XCPU=x64
 #----------------------------------------------------------------
 # Directory macros
 
-DESTDIR		=$(SRC)\out\dest_$(OUTDIR)
-OBJDIR		=$(SRC)\out\obj_$(OUTDIR)
+!if exist("$(SRC)\..\..\out")
+BASEOUT=$(SRC)\..\..\out
+RELDIR=thirdparty\mkshim\$(RELDIR)
+!else
+BASEOUT=$(SRC)\out
+!endif
+
+DESTDIR		=$(BASEOUT)\dest_$(OUTDIR)
+OBJDIR		=$(BASEOUT)\obj_$(OUTDIR)
 
 BINDIR		=$(DESTDIR)\bin
 SBINDIR		=$(BINDIR)
