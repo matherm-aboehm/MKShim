@@ -29,7 +29,7 @@ mshim_init_error_tables(struct et_list **et_list)
     dispatch_once_f(&once, (void *) et_list, init_error_tables);
 }
 
-const char *
+const char * KRB5_CALLCONV
 mit_error_message(errcode_t code)
 {
     static struct et_list *et_list = NULL;
@@ -50,7 +50,7 @@ mit_error_message(errcode_t code)
     return str;
 }
 
-void
+void KRB5_CALLCONV
 mit_com_err(const char *progname, errcode_t code, const char *format, ...)
 {
     va_list args;
@@ -60,7 +60,7 @@ mit_com_err(const char *progname, errcode_t code, const char *format, ...)
     heim_com_err_va(progname, code, format, args);
 }
 
-void
+void KRB5_CALLCONV
 mit_com_err_va(const char *progname, errcode_t code, const char *format, va_list args)
 {
     heim_com_err_va(progname, code, format, args);

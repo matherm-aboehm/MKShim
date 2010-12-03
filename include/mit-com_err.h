@@ -55,6 +55,15 @@
 #    endif
 #endif
 
+#if defined(_MSDOS) || defined(_WIN32)
+#include <win-mac.h>
+#endif
+
+#ifndef KRB5_CALLCONV
+#define KRB5_CALLCONV
+#define KRB5_CALLCONV_C
+#endif /* !KRB5_CALLCONV */
+
 #include <sys/types.h>
 #include <stdarg.h>
 
@@ -76,17 +85,23 @@ struct mit_error_table {
 /* Function prototypes */
 /* ******************* */
 
-void mit_com_err    (const char *progname, errcode_t code, const char *format, ...);
-void mit_com_err_va (const char *progname, errcode_t code, const char *format, va_list args);
+void KRB5_CALLCONV_C
+mit_com_err    (const char *progname, errcode_t code, const char *format, ...);
 
-const char *mit_error_message (errcode_t code);
-const char *mit_error_manager (errcode_t code);
+void KRB5_CALLCONV
+mit_com_err_va (const char *progname, errcode_t code, const char *format, va_list args);
+
+const char * KRB5_CALLCONV
+mit_error_message (errcode_t code);
+
+const char * KRB5_CALLCONV
+mit_error_manager (errcode_t code);
 
 com_err_handler_t mit_set_com_err_hook(com_err_handler_t handler);
 com_err_handler_t mit_reset_com_err_hook(void);
 
-errcode_t mit_add_error_table    (const struct mit_error_table *et);
-errcode_t mit_remove_error_table (const struct mit_error_table *et);
+errcode_t KRB5_CALLCONV mit_add_error_table    (const struct mit_error_table *et);
+errcode_t KRB5_CALLCONV mit_remove_error_table (const struct mit_error_table *et);
 
 #ifdef __cplusplus
 }
