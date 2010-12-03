@@ -77,12 +77,13 @@ XCPU=x64
 !if exist("$(SRC)\..\..\out")
 BASEOUT=$(SRC)\..\..\out
 RELDIR=thirdparty\mkshim\$(RELDIR)
+HEIMSDK=$(BASEOUT)\sdk
 !else
 BASEOUT=$(SRC)\out
 !endif
 
-DESTDIR		=$(BASEOUT)\dest_$(OUTDIR)
-OBJDIR		=$(BASEOUT)\obj_$(OUTDIR)
+DESTDIR		=$(BASEOUT)\dest_$(CPU)
+OBJDIR		=$(BASEOUT)\obj_$(CPU)
 
 BINDIR		=$(DESTDIR)\bin
 SBINDIR		=$(BINDIR)

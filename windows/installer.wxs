@@ -18,6 +18,8 @@
   <?define LeashFileName=leashw64 ?>
   <?define KrbccFileName=krbcc64 ?>
   <?define KrbccSFileName=krbcc64s ?>
+  <?define Suffix=64 ?>
+  <?define TargetDir=dirBin64 ?>
 
   <?else?>
 
@@ -36,38 +38,40 @@
   <?define LeashFileName=leashw32 ?>
   <?define KrbccFileName=krbcc32 ?>
   <?define KrbccSFileName=krbcc32s ?>
+  <?define Suffix=32 ?>
+  <?define TargetDir=dirBin32 ?>
 
   <?endif?>
 
   <Fragment>
 
-    <DirectoryRef Id='dirBin' FileSource='$(var.BinDir)'>
+    <DirectoryRef Id='$(var.TargetDir)' FileSource='$(var.BinDir)'>
 
-      <Component Id='comp.ShimKrb5' Guid='$(var.GuidShimKrb5)'
+      <Component Id='comp.ShimKrb5.$(var.Suffix)' Guid='$(var.GuidShimKrb5)'
                  Win64='$(var.Win64)'>
         <File Name='$(var.Krb5Filename).dll' KeyPath='yes' />
         <File Name='$(var.Krb5Filename).pdb' />
       </Component>
 
-      <Component Id='comp.ShimComerr' Guid='$(var.GuidShimComerr)'
+      <Component Id='comp.ShimComerr.$(var.Suffix)' Guid='$(var.GuidShimComerr)'
                  Win64='$(var.Win64)'>
         <File Name='$(var.ComerrFilename).dll' KeyPath='yes' />
         <File Name='$(var.ComerrFilename).pdb' />
       </Component>
 
-      <Component Id='comp.ShimGssapi' Guid='$(var.GuidShimGssapi)'
+      <Component Id='comp.ShimGssapi.$(var.Suffix)' Guid='$(var.GuidShimGssapi)'
                  Win64='$(var.Win64)'>
         <File Name='$(var.GssapiFilename).dll' KeyPath='yes' />
         <File Name='$(var.GssapiFilename).pdb' />
       </Component>
 
-      <Component Id='comp.ShimProf' Guid='$(var.GuidShimProf)'
+      <Component Id='comp.ShimProf.$(var.Suffix)' Guid='$(var.GuidShimProf)'
                  Win64='$(var.Win64)'>
         <File Name='$(var.ProfFileName).dll' KeyPath='yes' />
         <File Name='$(var.ProfFileName).pdb' />
       </Component>
 
-      <Component Id='comp.ShimLeash' Guid='$(var.GuidShimLeash)'
+      <Component Id='comp.ShimLeash.$(var.Suffix)' Guid='$(var.GuidShimLeash)'
                  Win64='$(var.Win64)'>
         <File Name='$(var.LeashFileName).dll' KeyPath='yes' />
         <File Name='$(var.LeashFileName).pdb' />
@@ -75,31 +79,31 @@
 
       <?ifdef UseKfwDlls?>
 
-      <Component Id='comp.Krbcc' Guid='$(var.GuidKrbccDll)'
+      <Component Id='comp.Krbcc.$(var.Suffix)' Guid='$(var.GuidKrbccDll)'
                  Win64='$(var.Win64)'>
         <File Source='$(var.KfwBinDir)\$(var.KrbccFileName).dll' KeyPath='yes'
-              Id='file.Shim.Krbcc' />
+              Id='file.Shim.Krbcc.$(var.Suffix)' />
       </Component>
 
-      <Component Id='comp.KrbccS' Guid='$(var.GuidKrbccsExe)'
+      <Component Id='comp.KrbccS.$(var.Suffix)' Guid='$(var.GuidKrbccsExe)'
                  Win64='$(var.Win64)'>
         <File Source='$(var.KfwBinDir)\$(var.KrbccSFileName).exe' KeyPath='yes'
-              Id='file.Shim.KrbccS' />
+              Id='file.Shim.KrbccS.$(var.Suffix)' />
       </Component>
 
       <?endif?>
     </DirectoryRef>
 
-    <ComponentGroup Id='comp.Heimdal.MKShim'>
-      <ComponentRef Id='comp.ShimKrb5' />
-      <ComponentRef Id='comp.ShimComerr' />
-      <ComponentRef Id='comp.ShimGssapi' />
-      <ComponentRef Id='comp.ShimProf' />
-      <ComponentRef Id='comp.ShimLeash' />
+    <ComponentGroup Id='comp.Heimdal.MKShim.$(var.Suffix)'>
+      <ComponentRef Id='comp.ShimKrb5.$(var.Suffix)' />
+      <ComponentRef Id='comp.ShimComerr.$(var.Suffix)' />
+      <ComponentRef Id='comp.ShimGssapi.$(var.Suffix)' />
+      <ComponentRef Id='comp.ShimProf.$(var.Suffix)' />
+      <ComponentRef Id='comp.ShimLeash.$(var.Suffix)' />
 
       <?ifdef UseKfwDlls?>
-      <ComponentRef Id='comp.Krbcc' />
-      <ComponentRef Id='comp.KrbccS' />
+      <ComponentRef Id='comp.Krbcc.$(var.Suffix)' />
+      <ComponentRef Id='comp.KrbccS.$(var.Suffix)' />
       <?endif?>
 
     </ComponentGroup>
