@@ -109,14 +109,16 @@ mshim_log_entry(const char *msg, ...)
     va_list args;
     char * str = NULL;
 
-    va_start(args, msg);
-    vasprintf(&str, msg, args);
-    va_end(args);
+    if (IsDebuggerPresent()) {
+        va_start(args, msg);
+        vasprintf(&str, msg, args);
+        va_end(args);
 
-    if (str) {
-        OutputDebugStringA(str);
-        OutputDebugStringA("\n");
-        free (str);
+        if (str) {
+            OutputDebugStringA(str);
+            OutputDebugStringA("\n");
+            free (str);
+        }
     }
 }
 
@@ -154,7 +156,9 @@ mshim_log_function_missing(const char *func)
 {
     mshim_log_entry("MITKerberosShim: function %s not implemented", func);
 #ifdef DEBUG
-    DebugBreak();
+    if (IsDebuggerPresent()) {
+        DebugBreak();
+    }
 #endif
 }
 
