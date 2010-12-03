@@ -121,7 +121,7 @@ heim_gss_import_name(OM_uint32 * /*minor_status*/,
 
 
 
-OM_uint32
+OM_uint32 KRB5_CALLCONV
 mit_gss_import_name(OM_uint32 *minor_status,
                     gss_buffer_t input_name_buffer,
                     gss_OID name_type,
