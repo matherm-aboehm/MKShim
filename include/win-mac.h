@@ -32,12 +32,6 @@
 #ifdef KRB5_GENERAL__
 #error krb5.h included before k5-int.h
 #endif /* KRB5_GENERAL__ */
-#if _INTEGRAL_MAX_BITS >= 64 && _MSC_VER >= 1400 && !defined(_WIN64) && !defined(_USE_32BIT_TIME_T)
-#if defined(_TIME_T_DEFINED) || defined(_INC_IO) || defined(_INC_TIME) || defined(_INC_WCHAR)
-#error time_t has been defined as a 64-bit integer which is incompatible with Kerberos on this platform.
-#endif /* _TIME_T_DEFINED */
-#define _USE_32BIT_TIME_T
-#endif 
 #endif
 
 #define SIZEOF_INT      4
