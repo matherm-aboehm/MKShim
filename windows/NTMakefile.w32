@@ -411,6 +411,10 @@ _VC_MANIFEST_CLEAN= \
 #----------------------------------------------------------------------
 # Code and assembly signing
 #
+#
+# SIGNTOOL is fullpath to signtool.exe from Windows v8.1 or later SDK
+# (earlier versions do not support SHA-2 signatures)
+#
 # SIGNTOOL_C is any set of options required for certificate/private
 # key selection for code signging.
 #
@@ -420,20 +424,50 @@ _VC_MANIFEST_CLEAN= \
 
 !ifdef CODESIGN
 _CODESIGN=( $(CODESIGN) $@ )
+_CODESIGN_SHA256=( $(CODESIGN_SHA256) $@ )
 !else
+
+!ifndef SIGNTOOL
+SIGNTOOL=signtool.exe
+!endif
 
 !ifdef SIGNTOOL_C
 
 !ifndef SIGNTOOL_T
-SIGNTOOL_T=/t http://timestamp.verisign.com/scripts/timstamp.dll
+SIGNTOOL_T=http://timestamp.verisign.com/scripts/timstamp.dll
+!endif
+!ifndef SIGNTOOL_T_SHA256
+SIGNTOOL_T_SHA256=http://sha256timestamp.ws.symantec.com/sha256/timestamp
 !endif
 
-_CODESIGN=( $(SIGNTOOL) sign $(SIGNTOOL_O) $(SIGNTOOL_T) $(SIGNTOOL_C) /v $@ )
+_CODESIGN=( $(SIGNTOOL) sign /fd sha1 $(SIGNTOOL_O) /t $(SIGNTOOL_T) $(SIGNTOOL_C) /v $@ )
+_CODESIGN_SHA256=( $(SIGNTOOL) sign /as /fd sha256 $(SIGNTOOL_O) /tr $(SIGNTOOL_T_SHA256) $(SIGNTOOL_C) /v $@ )
 !else
 _CODESIGN=( echo Skipping code sign )
+_CODESIGN_SHA256=( echo Skipping sha256 code sign )
 !endif
 
 !endif
+
+#----------------------------------------------------------------------
+# Symbol Store Support
+#
+# SYMSTORE_EXE is full path to symstore.exe
+#
+# SYMSTORE_ROOT is full path to root directory of symbol store
+#
+# SYMSTORE_COMMENT is optional comment to include in symbol store catalog entry
+#
+
+!IF DEFINED(SYMSTORE_EXE) && DEFINED(SYMSTORE_ROOT)
+!IF "$(SYMSTORE_COMMENT)" != ""
+SYMSTORE_COMMENT = |$(SYMSTORE_COMMENT)
+!ENDIF
+SYMSTORE_IMPORT= \
+$(SYMSTORE_EXE) add /s $(SYMSTORE_ROOT) /t "Heimdal" /v "$(BUILD)-$(CPU)-$(VER_PACKAGE_VERSION)" /c "$(@F)$(SYMSTORE_COMMENT)" /f $*.*
+!ELSE
+SYMSTORE_IMPORT=@echo No symbol store
+!ENDIF
 
 #----------------------------------------------------------------------
 # Convenience macros for preparing EXEs and DLLs.  These are multiline
@@ -442,22 +476,22 @@ _CODESIGN=( echo Skipping code sign )
 # prepare binaries.
 
 EXEPREP=\
-( $(_VC_MANIFEST_EMBED_EXE) && $(_VC_MANIFEST_CLEAN) && $(_CODESIGN) ) || ( $(RM) $@ && exit /b 1 )
+( $(_VC_MANIFEST_EMBED_EXE) && $(_VC_MANIFEST_CLEAN) && $(SYMSTORE_IMPORT) && $(_CODESIGN) && $(_CODESIGN_SHA256) ) || ( $(RM) $@ && exit /b 1 )
 
 EXEPREP_NOHEIM=\
-( $(_VC_MANIFEST_EMBED_EXE_NOHEIM) && $(_VC_MANIFEST_CLEAN) && $(_CODESIGN) ) || ( $(RM) $@ && exit /b 1 )
+( $(_VC_MANIFEST_EMBED_EXE_NOHEIM) && $(_VC_MANIFEST_CLEAN) && $(SYMSTORE_IMPORT) && $(_CODESIGN) && $(_CODESIGN_SHA256) ) || ( $(RM) $@ && exit /b 1 )
 
 EXEPREP_NODIST=\
-( $(_VC_MANIFEST_EMBED_EXE_NOHEIM) && $(_VC_MANIFEST_CLEAN) ) || ( $(RM) $@ && exit /b 1 )
+( $(_VC_MANIFEST_EMBED_EXE_NOHEIM) && $(_VC_MANIFEST_CLEAN) && $(SYMSTORE_IMPORT) ) || ( $(RM) $@ && exit /b 1 )
 
 DLLPREP=\
-( $(_VC_MANIFEST_EMBED_DLL) && $(_VC_MANIFEST_CLEAN) && $(_CODESIGN) ) || ( $(RM) $@ && exit /b 1 )
+( $(_VC_MANIFEST_EMBED_DLL) && $(_VC_MANIFEST_CLEAN) && $(SYMSTORE_IMPORT) && $(_CODESIGN) && $(_CODESIGN_SHA256) ) || ( $(RM) $@ && exit /b 1 )
 
 DLLPREP_NODIST=\
-( $(_VC_MANIFEST_EMBED_DLL) && $(_VC_MANIFEST_CLEAN) ) || ( $(RM) $@ && exit /b 1 )
+( $(_VC_MANIFEST_EMBED_DLL) && $(_VC_MANIFEST_CLEAN) && $(SYMSTORE_IMPORT) ) || ( $(RM) $@ && exit /b 1 )
 
 DLLPREP_MERGE=\
-( ( $(_MERGE_MANIFEST_DLL) || $(_INSERT_APPMANIFEST_DLL) ) && $(_CODESIGN) ) || ( $(RM) $@ && exit /b 1 )
+( ( $(_MERGE_MANIFEST_DLL) || $(_INSERT_APPMANIFEST_DLL) && $(SYMSTORE_IMPORT) ) && $(_CODESIGN) && $(_CODESIGN_SHA256) ) || ( $(RM) $@ && exit /b 1 )
 
 #----------------------------------------------------------------------
 # Libraries
